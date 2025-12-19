@@ -1,0 +1,223 @@
+/* ====== Layout tổng thể ====== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #f3f6fa;
+    color: #333;
+}
+
+/* ====== Cột trái: giới thiệu ====== */
+.login-left {
+    flex: 1;
+    background: linear-gradient(135deg, #1976d2, #42a5f5);
+    color: #fff;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-left h2 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.login-left p {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+.login-left ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.login-left li {
+    margin-bottom: 14px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.login-left i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+/* ====== Cột phải: form login ====== */
+.login-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+    padding: 20px;
+}
+
+/* Card login */
+.login-card {
+    width: 100%;
+    max-width: 380px;
+    padding: 30px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h4 {
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #1976d2;
+}
+
+/* Input */
+.form-control {
+    border-radius: 6px;
+    padding: 10px 12px;
+    border: 1px solid #d0d7e2;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 0.15rem rgba(25, 118, 210, 0.15);
+}
+
+/* Remember me + link nhỏ */
+.form-link {
+    color: #1976d2;
+    font-size: 14px;
+    text-decoration: underline;
+    transition: all 0.2s ease;
+    font-weight: normal;
+}
+
+.form-link:hover {
+    color: #1259a5;
+}
+
+/* Nút login admin */
+.btn-login {
+    background: #1976d2;
+    border: none;
+    padding: 10px;
+    font-weight: 600;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.btn-login:hover {
+    background: #1259a5;
+}
+
+/* Nút login Google */
+.btn-google {
+    border: 1px solid #d0d7e2;
+    background: #ffffff;
+    font-size: 14px;
+    padding: 8px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-google img {
+    display: inline-block;
+}
+
+/* Nút quay lại login User */
+.btn-librarian {
+    margin-top: 8px;
+    background: #e3f2fd;
+    border: 1px solid #bbdefb;
+    color: #1565c0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.btn-librarian:hover {
+    background: #bbdefb;
+    color: #0d47a1;
+}
+
+/* Ghi chú nhỏ dưới form */
+.note {
+    font-size: 13px;
+    text-align: center;
+    margin-top: 15px;
+    color: #666;
+}
+
+/* Khoảng cách phân tách */
+.small-link-block {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+/* Alert message (dùng chung với Bootstrap) */
+.alert {
+    padding: 8px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+/* ====== Responsive cho màn hình nhỏ ====== */
+@media (max-width: 992px) {
+    body {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .login-left {
+        padding: 30px 20px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .login-left ul {
+        margin-top: 10px;
+        text-align: left;
+        max-width: 420px;
+    }
+
+    .login-right {
+        padding: 30px 15px 40px;
+    }
+
+    .login-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-left h2 {
+        font-size: 22px;
+    }
+
+    .login-left p,
+    .login-left li {
+        font-size: 13px;
+    }
+
+    .login-card {
+        padding: 22px 18px;
+    }
+
+    .btn-login,
+    .btn-google,
+    .btn-librarian {
+        font-size: 13px;
+    }
+}

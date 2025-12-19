@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Tổ chức – Nhân sự Thư viện — Thư viện CTUT</title>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/user/logo_tab.PNG}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <!-- CSS khối USER -->
+    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/user/header.css}">
+    <link rel="stylesheet" th:href="@{/css/user/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/user/org.css}">
+</head>
+
+<body>
+<!-- Header (fragment) -->
+<div th:replace="~{components/user/header :: header}"></div>
+
+<main class="container py-4 org-page">
+
+    <!-- Tiêu đề + breadcrumb -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h4 class="fw-bold mb-0">
+            <i class="bi bi-people-fill me-2"></i> Tổ chức – Nhân sự Thư viện
+        </h4>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a th:href="@{/user/home}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/user/intro}">Giới thiệu</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tổ chức – Nhân sự</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- 1. Cơ cấu tổ chức -->
+    <section class="card shadow-sm mb-4 org-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">1.</span> Cơ cấu tổ chức
+            </h5>
+            <p>
+                Thư viện Trường Đại học Kỹ thuật - Công nghệ Cần Thơ trực thuộc
+                <strong>Phòng Quản lý khoa học công nghệ - Đổi mới sáng tạo - Hợp tác quốc tế</strong>,
+                chịu sự chỉ đạo trực tiếp của Ban Giám hiệu và phối hợp với các đơn vị trong toàn Trường
+                để triển khai các hoạt động phục vụ đào tạo, nghiên cứu khoa học.
+            </p>
+
+            <div class="org-diagram mt-3">
+                <div class="org-node org-node-top">
+                    <div class="org-node-title">Ban Giám hiệu</div>
+                </div>
+                <div class="org-connector"></div>
+                <div class="org-node org-node-middle">
+                    <div class="org-node-title">
+                        Phòng Quản lý KHCN – ĐMST – HTQT
+                    </div>
+                </div>
+                <div class="org-connector"></div>
+                <div class="org-node org-node-bottom">
+                    <div class="org-node-title">Thư viện Trường</div>
+                    <div class="org-node-desc">
+                        • Bộ phận Quản lý – Hành chính<br/>
+                        • Bộ phận Phục vụ bạn đọc<br/>
+                        • Bộ phận Xử lý tài liệu và Thư viện số
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Ban phụ trách Thư viện -->
+    <section class="card shadow-sm mb-4 org-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">2.</span> Ban phụ trách Thư viện
+            </h5>
+
+            <div class="table-responsive">
+                <table class="table table-striped align-middle staff-table">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Họ và tên</th>
+                        <th>Chức vụ</th>
+                        <th>Nhiệm vụ chính</th>
+                        <th>Liên hệ</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Dữ liệu mẫu, sau này có thể thay bằng th:each -->
+                    <tr>
+                        <td>1</td>
+                        <td>Nguyễn A</td>
+                        <td>Phụ trách Thư viện</td>
+                        <td>Quản lý chung hoạt động Thư viện, tham mưu cho lãnh đạo Trường về chiến lược phát triển Thư viện.</td>
+                        <td>
+                            <div class="small">
+                                Email: thuviendau@ctuet.edu.vn<br/>
+                                ĐT: 0292.xxx.xxxx
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Trần B</td>
+                        <td>Tổ trưởng bộ phận Phục vụ bạn đọc</td>
+                        <td>Phụ trách công tác phục vụ, hướng dẫn tra cứu, mượn – trả tài liệu, tổ chức các hoạt động văn hóa đọc.</td>
+                        <td>
+                            <div class="small">
+                                Email: phucvubandoc@ctuet.edu.vn<br/>
+                                ĐT: 0292.xxx.xxxx
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Lê C</td>
+                        <td>Tổ trưởng bộ phận Xử lý tài liệu – Thư viện số</td>
+                        <td>Phụ trách biên mục, phân loại, cập nhật cơ sở dữ liệu, quản trị hệ thống Thư viện số và tài nguyên điện tử.</td>
+                        <td>
+                            <div class="small">
+                                Email: xulytailieu@ctuet.edu.vn<br/>
+                                ĐT: 0292.xxx.xxxx
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Các bộ phận chức năng -->
+    <section class="card shadow-sm mb-4 org-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">3.</span> Các bộ phận chức năng
+            </h5>
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="org-box h-100">
+                        <h6 class="org-box-title">
+                            <i class="bi bi-book me-1"></i> Bộ phận Phục vụ bạn đọc
+                        </h6>
+                        <ul class="mb-0 small">
+                            <li>Tiếp nhận, hướng dẫn bạn đọc sử dụng dịch vụ Thư viện.</li>
+                            <li>Thực hiện mượn – trả tài liệu, nhắc hạn và xử lý quá hạn.</li>
+                            <li>Tổ chức không gian đọc, hỗ trợ tra cứu tài liệu.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="org-box h-100">
+                        <h6 class="org-box-title">
+                            <i class="bi bi-journal-check me-1"></i> Bộ phận Xử lý tài liệu
+                        </h6>
+                        <ul class="mb-0 small">
+                            <li>Tiếp nhận tài liệu mới, kiểm kê, dán nhãn, sắp xếp kho.</li>
+                            <li>Biên mục, phân loại và cập nhật dữ liệu vào hệ thống OPAC.</li>
+                            <li>Bảo quản tài liệu, đề xuất thanh lý, bổ sung sách.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="org-box h-100">
+                        <h6 class="org-box-title">
+                            <i class="bi bi-pc-display me-1"></i> Bộ phận Thư viện số – CNTT
+                        </h6>
+                        <ul class="mb-0 small">
+                            <li>Quản trị trang Thư viện số và các cơ sở dữ liệu trực tuyến.</li>
+                            <li>Hỗ trợ bạn đọc truy cập, khai thác tài liệu điện tử.</li>
+                            <li>Phối hợp triển khai các giải pháp số hóa tài nguyên.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Thông tin liên hệ -->
+    <section class="card shadow-sm mb-4 org-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">4.</span> Thông tin liên hệ
+            </h5>
+            <div class="row small">
+                <div class="col-md-6 mb-2">
+                    <span class="text-muted">Địa chỉ:</span>
+                    <span class="fw-semibold">
+                        Thư viện Trường Đại học Kỹ thuật - Công nghệ Cần Thơ
+                    </span>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <span class="text-muted">Email chung:</span>
+                    <span class="fw-semibold">thuviendhktcn@ctuet.edu.vn</span>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <span class="text-muted">Điện thoại:</span>
+                    <span class="fw-semibold">0292.xxx.xxxx</span>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <span class="text-muted">Giờ làm việc:</span>
+                    <span class="fw-semibold">07h30 – 11h00; 13h30 – 17h00 (thứ Hai đến thứ Sáu)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer (fragment) -->
+<div th:replace="~{components/user/footer :: userFooter}"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/user/layout.js}"></script>
+<script th:src="@{/js/user/active-menu.js}"></script>
+</body>
+</html>

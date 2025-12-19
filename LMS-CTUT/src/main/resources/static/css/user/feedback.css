@@ -1,0 +1,56 @@
+/* === Trang Góp Ý === */
+.contact-info-wrapper,
+.feedback-form-wrapper {
+  height: 100%; /* giúp 2 bên cao bằng nhau */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 500px;
+}
+
+.contact-info-wrapper:hover,
+.feedback-form-wrapper:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* === Màu sắc đồng bộ === */
+.contact-info-wrapper h3,
+.feedback-form-wrapper h2 {
+  color: #0056d2 !important;; /* màu xanh đồng bộ */
+  font-weight: 700;
+}
+
+/* Nút gửi */
+.feedback-form-wrapper button.btn-primary {
+  background-color: #0056d2;
+  border-color: #0056d2;
+}
+
+.feedback-form-wrapper button.btn-primary:hover {
+  background-color: #0044a5;
+  border-color: #0044a5;
+}
+
+.map-container {
+  flex-grow: 1;
+  display: flex;
+}
+
+.map-container iframe {
+  border-radius: 10px;
+  flex: 1;
+  min-height: 320px;
+}
+
+.feedback-form textarea {
+  resize: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-info-wrapper {
+    margin-bottom: 1.5rem;
+  }
+}

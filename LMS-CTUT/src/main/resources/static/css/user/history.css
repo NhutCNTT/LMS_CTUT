@@ -1,0 +1,57 @@
+/* ============================
+   LỊCH SỬ MƯỢN — ĐỘC GIẢ
+   ============================ */
+
+.history-page {
+    font-size: 0.95rem;
+}
+
+/* Bảng */
+.history-table thead th {
+    background-color: #f3f4f6;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.history-table tbody td {
+    font-size: 0.9rem;
+}
+
+/* Badge trạng thái */
+.badge.status-borrowing {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.badge.status-returned {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.badge.status-late {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Card */
+.history-page .card {
+    border-radius: 10px;
+}
+
+/* Breadcrumb */
+.breadcrumb a {
+    text-decoration: none;
+    color: #0d6efd;
+}
+
+.breadcrumb .active {
+    color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .history-table thead {
+        font-size: 0.8rem;
+    }
+}

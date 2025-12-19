@@ -1,0 +1,285 @@
+:root {
+  /* 🎨 Màu thương hiệu */
+  --brand: #2563eb;       /* xanh lam dịu (primary) */
+  --brand-dark: #1e40af;  /* xanh navy (hover, tiêu đề) */
+  --brand-light: #dbeafe; /* xanh pastel nhạt (nền phụ) */
+
+  /* 🖋️ Văn bản */
+  --ink: #000000;         /* chữ chính (đen-xám đậm) */
+  --sub: #6b7280;         /* chữ phụ (xám nhạt hơn) */
+
+  /* 🧱 Layout + nền */
+  --background: #f9fafb;  /* nền tổng thể */
+  --card: #ffffff;        /* nền thẻ / card */
+  --line: #e5e7eb;        /* viền ngăn cách */
+
+  /* ⚠️ Trạng thái */
+  --danger: #dc2626;      /* đỏ cảnh báo / nhấn mạnh */
+}
+
+/* ============ BODY RIÊNG CHO TRANG THÔNG BÁO ============ */
+body.announce-page {
+  color: var(--ink);
+  background: var(--background);
+  font-family: "Inter", system-ui, sans-serif;
+  /* ❌ KHÔNG đặt line-height ở đây để tránh ảnh hưởng header/footer */
+}
+
+/* Chỉ áp dụng line-height thoáng hơn cho nội dung chính */
+body.announce-page main {
+  line-height: 2;
+}
+
+/* =========================================================
+   ANNOUNCEMENT PAGE (announcement.css)
+   Scope: body.announce-page ...
+   Phụ thuộc biến màu trong :root (định nghĩa ở layout.css)
+   ========================================================= */
+
+/* ============ HERO ============ */
+/* Nền hero là gradient từ xanh pastel nhạt -> trắng để tạo chiều sâu dịu mắt */
+body.announce-page .announce-hero {
+  background: linear-gradient(180deg, var(--brand-light), #ffffff);
+}
+
+/* Badge “Trang Thông báo Thư viện” kiểu viên thuốc, đậm nhẹ, cùng tông hero */
+body.announce-page .hero-badge {
+  background: var(--brand-light);   /* nền xanh nhạt hòa với hero */
+  color: var(--brand-dark);         /* chữ xanh navy cho độ tương phản */
+  font-weight: 600;                 /* chữ đậm vừa */
+  border-radius: 999px;             /* bo tròn tối đa (viên thuốc) */
+  padding: 6px 12px;                /* đệm ngang/dọc cân đối */
+  display: inline-flex;             /* canh icon + chữ trên 1 hàng */
+  align-items: center;              /* căn giữa theo trục dọc */
+  gap: 8px;                         /* khoảng cách icon – chữ */
+}
+
+/* Tiêu đề hero đậm, dùng navy để nổi bật trên nền sáng */
+body.announce-page .announce-hero h1 {
+  font-weight: 800;
+  color: var(--brand-dark);
+}
+
+/* Đoạn mô tả hero dùng màu chữ phụ để nhẹ mắt hơn tiêu đề */
+body.announce-page .announce-hero .lead {
+  color: var(--sub);
+}
+
+/* ============ FILTER ============ */
+/* Khung filter (ô tìm kiếm / nhóm nút) tạo cảm giác là 1 card trắng nổi trên hero */
+body.announce-page .filter-wrap {
+  background: #fff;                 /* nền trắng nổi trên hero */
+  border: 1px solid var(--line);    /* viền xám nhạt, phân tách */
+  border-radius: 14px;              /* bo góc mềm mại */
+  padding: 16px;                    /* khoảng đệm bên trong */
+}
+
+/* Nút chọn category dạng “pill” trung tính, không trội hơn nội dung */
+body.announce-page .category-pill {
+  border: 1px solid var(--line);    /* viền nhẹ */
+  color: var(--sub);                /* chữ xám phụ */
+  background: #fff;                 /* nền trắng */
+}
+
+/* Trạng thái active: fill xanh thương hiệu, chữ trắng để rõ ràng */
+body.announce-page .category-pill.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+/* Ô nhập tìm kiếm có viền nhẹ, đồng bộ với card */
+body.announce-page .search-input {
+  border: 1px solid var(--line);
+}
+
+/* ============ SECTION HEADER ============ */
+/* Tiêu đề từng section + link “Xem tất cả” xếp 2 đầu, canh giữa dọc */
+body.announce-page .section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;   /* tiêu đề trái, link phải */
+  margin-bottom: 1.5rem;            /* khoảng cách dưới tiêu đề */
+}
+
+/* Tiêu đề section dùng navy để thống nhất hệ thống phân cấp */
+body.announce-page .section-header h2 {
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+
+/* Link “Xem tất cả” nổi nhẹ bằng màu primary, bỏ gạch chân mặc định */
+body.announce-page .section-header .view-all {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+body.announce-page .section-header .view-all:hover {
+  text-decoration: underline;       /* underline khi hover để thể hiện click được */
+}
+
+/* ============ NOTICE CARD ============ */
+/* Card thông báo chung 1 style: bo góc, viền nhẹ, hover nổi nhẹ */
+body.announce-page .notice-card {
+  background: var(--card);          /* trắng đồng bộ card */
+  border: 1px solid var(--line);    /* viền nhẹ */
+  border-radius: 16px;              /* bo góc lớn để thân thiện */
+  overflow: hidden;                 /* ẩn tràn khi có ảnh/child */
+  transition: transform .18s ease, box-shadow .18s ease; /* hiệu ứng hover */
+  height: 100%;                     /* kéo full chiều cao col để các card cân nhau */
+  display: flex;                    /* dựng layout dọc */
+  flex-direction: column;
+}
+
+/* Hover nhấc card lên nhẹ + đổ bóng xanh mờ, tạo cảm giác “tương tác được” */
+body.announce-page .notice-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.12);
+}
+
+/* Phần thumbnail đầu card: cố định chiều cao, căn giữa icon/ảnh */
+body.announce-page .notice-card .thumb {
+  height: 160px;                    /* chiều cao thống nhất giữa các card */
+  background: var(--brand-light);   /* nền xanh nhạt để đồng bộ hero */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Icon trong thumb to hơn để thu hút, dùng navy cho tương phản */
+body.announce-page .notice-card .thumb i {
+  font-size: 40px;
+  color: var(--brand-dark);
+}
+
+/* Phần nội dung card: cho phép giãn chiếm chỗ, padding hợp lý */
+body.announce-page .notice-card .p-3 {
+  flex: 1;                          /* đẩy footer (nếu có) xuống dưới */
+  padding: 1.25rem !important;      /* đảm bảo padding đủ rộng */
+}
+
+/* Tiêu đề card đậm vừa, line-height thoáng để đọc nhanh */
+body.announce-page .notice-card h5 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Badge “Gấp” ghim góc trái trên thumbnail, màu đỏ nhạt cảnh báo */
+body.announce-page .badge-important {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #fee2e2;              /* nền đỏ rất nhạt */
+  color: var(--danger);             /* chữ đỏ chủ đạo */
+  border: 1px solid #fecaca;        /* viền đỏ nhạt */
+  font-weight: 700;
+}
+
+/* Dòng meta (thời gian, địa điểm, tag…) nhạt hơn body text */
+body.announce-page .meta {
+  font-size: .95rem;
+  color: var(--sub);
+}
+body.announce-page .meta i {
+  margin-right: 6px;                /* khoảng cách icon – chữ */
+}
+
+/* ============ TIMELINE ============ */
+/* Dòng thời gian: vẽ 1 trục dọc bên trái + các bullet theo mốc */
+body.announce-page .timeline {
+  position: relative;
+  padding-left: 28px;               /* chừa khoảng cho trục + bullet */
+}
+
+/* Trục dọc gradient xanh → xanh nhạt để có chiều sâu */
+body.announce-page .timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(var(--brand), var(--brand-light));
+}
+
+/* Khoảng cách dọc giữa các mốc */
+body.announce-page .timeline-item {
+  position: relative;
+  padding: 10px 0;
+}
+
+/* Bullet tròn trắng, viền xanh dày 3px đặt đúng vị trí trục */
+body.announce-page .timeline-bullet {
+  position: absolute;
+  left: 2px;
+  top: 14px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border: 3px solid var(--brand);
+  border-radius: 50%;
+}
+
+/* Hộp “Tải biểu mẫu nhanh” thiết kế như card trợ giúp */
+body.announce-page .helper-box {
+  border-color: var(--line);
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+/* ============ SUBSCRIBE ============ */
+/* Khối đăng ký email dùng lại gradient hero để xuyên suốt thị giác */
+body.announce-page .subscribe-bg {
+  background: linear-gradient(180deg, var(--brand-light), #ffffff);
+}
+
+/* Hộp mẹo (tips) viền nét đứt navy để nhấn mạnh nội dung phụ */
+body.announce-page .tip-box {
+  background: var(--brand-light);
+  border: 1px dashed var(--brand-dark);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+/* ============ TAG ============ */
+/* Tag nhỏ mô tả loại thông báo: pill nền trắng, viền nhạt, chữ xám phụ */
+body.announce-page .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;                         /* khoảng cách icon – chữ */
+  padding: 6px 12px;
+  border-radius: 999px;             /* pill */
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--sub);
+  font-size: 0.9rem;
+}
+
+/* ============ ARCHIVE LIST ============ */
+/* Mục lưu trữ dạng list-group: cỡ chữ vừa, khoảng đệm thoáng */
+body.announce-page #archive .list-group-item {
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+}
+
+/* Link trong lưu trữ theo màu chữ chính, bỏ gạch chân mặc định */
+body.announce-page #archive a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* Hover link -> navy + underline để thể hiện tương tác */
+body.announce-page #archive a:hover {
+  color: var(--brand-dark);
+  text-decoration: underline;
+}
+
+/* ============ RESPONSIVE ============ */
+/* Màn hình rộng: thumbnail card thấp hơn chút để gọn grid */
+@media (min-width: 992px) {
+  body.announce-page .notice-card .thumb {
+    height: 150px;
+  }
+}

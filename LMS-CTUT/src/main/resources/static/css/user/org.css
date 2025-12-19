@@ -1,0 +1,114 @@
+/* ============================
+   TỔ CHỨC – NHÂN SỰ THƯ VIỆN
+   ============================ */
+
+.org-page {
+    font-size: 0.95rem;
+}
+
+/* Card chung */
+.org-page .card {
+    border-radius: 10px;
+}
+
+/* Tiêu đề các mục */
+.org-section .section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.org-section .section-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #e5f0ff;
+    color: #0d6efd;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+/* Sơ đồ tổ chức */
+.org-diagram {
+    max-width: 480px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.org-node {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+.org-node-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.org-node-desc {
+    font-size: 0.85rem;
+    color: #4b5563;
+    margin-top: 0.35rem;
+}
+
+.org-connector {
+    width: 2px;
+    height: 14px;
+    margin: 0.25rem auto;
+    background-color: #cbd5e1;
+}
+
+/* Hộp bộ phận chức năng */
+.org-box {
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem 1rem;
+    background-color: #f9fafb;
+}
+
+.org-box-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+/* Bảng nhân sự */
+.staff-table thead th {
+    background-color: #f3f4f6;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.staff-table tbody td {
+    font-size: 0.9rem;
+}
+
+/* Breadcrumb */
+.breadcrumb a {
+    text-decoration: none;
+    color: #0d6efd;
+}
+
+.breadcrumb .active {
+    color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .org-section .section-title {
+        align-items: flex-start;
+    }
+
+    .staff-table {
+        font-size: 0.85rem;
+    }
+}

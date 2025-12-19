@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Giới thiệu — Thư viện CTUT</title>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/user/logo_tab.PNG}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <!-- CSS khối USER -->
+    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/user/header.css}">
+    <link rel="stylesheet" th:href="@{/css/user/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/user/introduce.css}">
+</head>
+
+<body>
+<!-- Header (fragment) -->
+<div th:replace="~{components/user/header :: header}"></div>
+
+<!-- Nội dung chính -->
+<main class="container py-4">
+    <!-- Đặt nội dung giới thiệu của bạn ở đây -->
+</main>
+
+<!-- Footer (fragment) -->
+<div th:replace="~{components/user/footer :: userFooter}"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/user/layout.js}"></script>
+<script th:src="@{/js/user/active-menu.js}"></script>
+<!-- Không dùng header.js/footer.js (fetch) vì đã include fragment -->
+</body>
+</html>

@@ -1,0 +1,64 @@
+:root {
+  --header-h: 56px;
+  /* cao độ header */
+}
+
+/* Header cố định */
+.app-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  z-index: 2000;
+  background: #fff;
+  backdrop-filter: saturate(180%) blur(6px);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.app-topbar .brand-area {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.app-topbar .brand-area img {
+  max-height: 40px;
+  width: auto;
+}
+
+.app-topbar .brand-area h6 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0d6efd;
+  white-space: nowrap;
+}
+
+.app-topbar .container-fluid {
+  min-height: 56px;
+  padding: .5rem 1rem;
+}
+
+/* Search */
+.search-wrap {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.search-input {
+  height: 40px;
+  padding-left: 14px;
+  padding-right: 40px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.search-ico {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+}

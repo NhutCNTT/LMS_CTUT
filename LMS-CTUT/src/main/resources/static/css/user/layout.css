@@ -1,0 +1,27 @@
+/* ===== ĐỪNG ẨN MẶC ĐỊNH NỮA ===== */
+:root {
+    --text-color: #111827;
+    --bg: #f9fafb;
+}
+
+/* Mặc định: HIỆN nội dung */
+html { overflow-y: scroll; }
+body {
+    font-family: "Inter", system-ui, sans-serif;
+    background-color: var(--bg);
+    color: var(--text-color);
+    visibility: visible; /* luôn hiện */
+    margin: 0;
+}
+
+/* Nếu THẬT SỰ muốn che tạm lúc load, dùng lớp trên <html> và nhớ có timeout gỡ */
+html.loading body {
+    visibility: hidden;
+}
+
+/* Giữ chỗ header/footer khi tải động */
+#header-placeholder { min-height: 120px; /* đúng chiều cao header thật */ }
+#footer-placeholder { min-height: 200px; }
+
+/* (tuỳ chọn) gạch viền nhẹ để debug layout */
+/* * { outline: 1px solid rgba(0,0,0,.03); } */

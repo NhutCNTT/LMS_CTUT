@@ -1,0 +1,96 @@
+<!-- templates/components/library/sidebar.html -->
+<aside class="sidebar d-flex flex-column" id="appSidebar"
+       th:fragment="sidebar(active)">
+    <ul class="nav flex-column">
+
+        <li class="nav-item">
+            <a class="nav-link"
+               th:href="@{/librarian/dashboard}"
+               th:classappend="${active}=='dashboard' ? ' active' : ''"
+               aria-current="${active}=='dashboard' ? 'page' : null">
+                TỔNG QUAN
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               th:href="@{/librarian/readers}"
+               th:classappend="${active}=='readers' ? ' active' : ''">
+                ĐỘC GIẢ
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               th:href="@{/librarian/books}"
+               th:classappend="${active}=='books' ? ' active' : ''">
+                SÁCH
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               th:href="@{/librarian/circulation}"
+               th:classappend="${active}=='circulation' ? ' active' : ''">
+                MƯỢN / TRẢ
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               th:href="@{/librarian/fees}"
+               th:classappend="${active}=='fees' ? ' active' : ''">
+                THU PHÍ PHẠT
+            </a>
+        </li>
+
+        <!-- BÁO CÁO (submenu) -->
+        <li class="nav-item">
+            <a class="nav-link d-flex justify-content-between align-items-center"
+               data-bs-toggle="collapse"
+               data-bs-target="#reportsMenu"
+               role="button"
+               th:attr="aria-expanded=${active == 'reports' ? 'true' : 'false'}">
+            <span>BÁO CÁO</span>
+                <i class="bi bi-chevron-right toggle-icon"></i>
+            </a>
+
+            <div class="collapse ps-3"
+                 id="reportsMenu"
+                 th:classappend="${active}=='reports' ? ' show' : ''">
+                <ul class="nav flex-column">
+
+                    <li>
+                        <a class="nav-link"
+                           th:href="@{/librarian/circulation-reports}">
+                            Báo cáo mượn / trả
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link"
+                           th:href="@{/templates/librarian/member-reports}">
+                            Báo cáo thành viên
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link"
+                           th:href="@{/templates/librarian/overdue-reports}">
+                            Báo cáo quá hạn
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link"
+                           th:href="@{/templates/librarian/fee-reports}">
+                            Báo cáo thu phí phạt
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+
+    </ul>
+</aside>

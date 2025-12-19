@@ -1,0 +1,29 @@
+:root {
+    --header-h: 56px;
+    /* chiều cao header */
+    --sidebar-w: 240px;
+    /* chiều rộng sidebar */
+}
+
+/* MAIN chừa chỗ header + sidebar */
+main.flex-grow-1 {
+    margin-left: var(--sidebar-w);
+    padding-top: calc(var(--header-h) + 16px);
+    padding-left: 16px;
+    padding-right: 16px;
+    min-height: 100vh;
+    background: #f9fafb;
+}
+
+/* Tránh che header */
+.app-layout {
+    overflow: visible;
+}
+
+/* Mobile */
+@media (max-width: 991.98px) {
+    main.flex-grow-1 {
+        margin-left: 0;
+        padding-top: calc(var(--header-h) + 12px);
+    }
+}

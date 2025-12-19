@@ -1,0 +1,928 @@
+<!-- templates/library/circulation.html -->
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mượn trả sách — Thư viện CTUT</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/librarian/logo_tab.PNG}" />
+
+    <!-- Bootstrap & Icons (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+
+    <!-- CSS dự án (từ /static) -->
+    <link rel="stylesheet" th:href="@{/css/librarian/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/sidebar.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/circulation.css}" />
+
+    <style>
+        .modal.modal-fixed-scroll .modal-body{max-height:calc(100vh - 12rem);overflow:auto;}
+        @media (max-width:576px){
+            .modal.modal-fixed-scroll .modal-dialog{margin:0;}
+            .modal.modal-fixed-scroll .modal-body{max-height:calc(100vh - 9rem);}
+        }
+    </style>
+</head>
+
+<body>
+<!-- Header (fragment) -->
+<div th:replace="components/librarian/header :: header"></div>
+
+<div class="app-layout d-flex">
+    <!-- Sidebar (fragment, đánh dấu menu đang active) -->
+    <aside th:replace="components/librarian/sidebar :: sidebar('circulation')"></aside>
+
+    <!-- Main -->
+    <main class="flex-grow-1">
+        <div class="container py-4">
+
+            <!-- thông báo -->
+            <div th:if="${errorAcceptBorrow}" class="alert alert-danger text-center"
+                 th:text="${errorAcceptBorrow}">
+            </div>
+            <div th:if="${successAcceptBorrow}" class="alert alert-success text-center"
+                 th:text="${successAcceptBorrow}">
+            </div>
+            <div th:if="${successReturn}" class="alert alert-success text-center"
+                 th:text="${successReturn}">
+            </div>
+            <div th:if="${errorReturn}" class="alert alert-danger text-center"
+                 th:text="${errorReturn}">
+            </div>
+            <div th:if="${successCreateBorrowForm}" class="alert alert-success text-center"
+                 th:text="${successCreateBorrowForm}">
+            </div>
+            <div th:if="${errorCreateBorrowForm}" class="alert alert-danger text-center"
+                 th:text="${errorCreateBorrowForm}">
+            </div>
+            <div th:if="${successTakenBook}" class="alert alert-success text-center"
+                 th:text="${successTakenBook}">
+            </div>
+
+
+
+
+            <!-- Tabs + actions -->
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                <ul class="nav nav-tabs m-0">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#borrow-pane" type="button" role="tab" aria-controls="borrow-pane" aria-selected="true">
+                            <i class="bi bi-box-arrow-in-down me-1"></i> Hàng đợi
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#return-pane" type="button" role="tab" aria-controls="return-pane" aria-selected="false">
+                            <i class="bi bi-box-arrow-up me-1"></i> Đang mượn
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#overdue-pane" type="button" role="tab" aria-controls="overdue-pane" aria-selected="false">
+                            <i class="bi bi-exclamation-triangle me-1"></i> Quá hạn
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#history-pane" type="button" role="tab" aria-controls="history-pane" aria-selected="false">
+                            <i class="bi bi-clock-history me-1"></i> Lịch sử
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="d-flex ms-auto gap-2">
+                    <button id="btnOpenLoan" class="btn btn-primary" type="button">
+                        <i class="bi bi-file-earmark-plus me-1"></i> Tạo phiếu mượn
+                    </button>
+                    <!-- Nút mở modal -->
+                    <button id="btnOpenReserveList" class="btn btn-outline-secondary" type="button"
+                            data-bs-toggle="modal" data-bs-target="#reserveListModal">
+                        <i class="bi bi-journal-text me-1"></i> Danh sách yêu cầu
+                        <span id="reserveBadge" class="badge text-bg-danger align-middle ms-1" style="display:none">0</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <!-- Hàng đợi -->
+                <div class="tab-pane fade show active" id="borrow-pane">
+                    <div class="card mt-0">
+
+                        <!-- Thanh tìm kiếm + nút đánh dấu -->
+                        <div class="card-body border-bottom">
+                            <div class="row align-items-center">
+
+                                <!-- FORM SEARCH -->
+                                <div class="col">
+                                    <form th:action="@{/librarian/searchBorrowing}" method="get" class="d-flex align-items-center gap-2">
+
+                                        <label for="keyword" class="col-form-label fw-semibold">Từ khóa:</label>
+
+                                        <input id="keyword"
+                                               name="keyword"
+                                               class="form-control"
+                                               placeholder="Nhập tên, email, SDT, mã sách..."
+                                               th:value="${keyword}"
+                                               style="max-width: 260px;">
+
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            <i class="bi bi-search me-1"></i> Tìm
+                                        </button>
+                                        <div class="ms-auto">
+                                            <a th:href="@{/librarian/circulation(page=0, pageSize=10)}"
+                                               class="btn btn-outline-secondary text-dark text-decoration-none">
+                                                <i class="bi bi-arrow-repeat me-1"></i> Đặt lại
+                                            </a>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                                <!-- BUTTON ĐÁNH DẤU -->
+                                <div class="col-auto">
+                                    <form id="pickupForm" method="post" th:action="@{/librarian/taken}" class="d-flex">
+                                        <input type="hidden" name="borrowId" id="borrowingIdField"/>
+                                        <button type="submit" class="btn btn-success">
+                                            Đánh dấu đã lấy sách
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Bảng danh sách hàng đợi -->
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0" id="tblBorrow">
+                                <thead class="table-light">
+                                <tr>
+                                    <th style="width:36px"><input type="checkbox" id="chkAllTaken"/></th>
+                                    <th>Stt</th>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>SDT</th>
+                                    <th>Mã sách</th>
+                                    <th>Tiêu đề</th>
+                                    <th class="text-nowrap">Vị trí</th>
+                                    <th>Ngày yêu cầu</th>
+                                    <th>Hạn lấy</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="r, iterStat : ${borrowing}">
+                                    <td>
+                                        <input type="checkbox" name="ids" th:value="${r.id}" class="chkBorrow"/>
+                                        </td>
+                                    <td th:text="${iterStat.count}"></td>
+
+                                    <td th:text="${r.users.fullName}"></td>
+                                    <td th:text="${r.users.email}"></td>
+                                    <td th:text="${r.users.phoneNumber}"></td>
+
+                                    <td th:text="${r.books.bookCode}"></td>
+                                    <td th:text="${r.books.bookName}"></td>
+                                    <td class="fw-bold text-info"
+                                        th:text="${r.books.location != null ? r.books.location : '-'}">
+                                    </td>
+
+                                    <td th:text="${#temporals.format(r.createAt, 'dd/MM/yyyy HH:mm')}"></td>
+                                    <td th:text="${#temporals.format(r.deadline, 'dd/MM/yyyy HH:mm')}"></td>
+
+
+                                    <td>
+                                        <span class="badge bg-warning text-dark">CHỜ LẤY</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <nav th:if="${totalPages != null and totalPages > 0}" class="mt-3">
+                                <ul class="pagination">
+
+                                    <!-- Previous -->
+                                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/librarian/searchBorrowing(
+                                                page=${currentPage > 0 ? currentPage - 1 : 0},
+                                                pageSize=${pageSize},
+                                                keyword=${keyword}
+                                            )}">
+                                            Previous
+                                        </a>
+                                    </li>
+
+                                    <!-- Page numbers -->
+                                    <li class="page-item"
+                                        th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                        th:classappend="${i == currentPage} ? 'active'">
+                                        <a class="page-link"
+                                           th:text="${i + 1}"
+                                           th:href="@{/librarian/searchBorrowing(
+                                                page=${i},
+                                                pageSize=${pageSize},
+                                                keyword=${keyword}
+                                           )}">
+                                        </a>
+                                    </li>
+
+                                    <!-- Next -->
+                                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/librarian/searchBorrowing(
+                                                    page=${currentPage < totalPages - 1 ? currentPage + 1 : totalPages - 1},
+                                                    pageSize=${pageSize},
+                                                    keyword=${keyword}
+                                               )}">
+                                            Next
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- Đang mượn -->
+                <div class="tab-pane fade" id="return-pane">
+                    <div class="card mt-0">
+                        <div class="card-body border-bottom">
+                            <div class="row g-2 align-items-center">
+                                <!-- FORM SEARCH -->
+                                <div class="col">
+                                    <form th:action="@{/librarian/searchBorrowRecord}" method="get" class="d-flex align-items-center gap-2">
+
+                                        <label for="keyword" class="col-form-label fw-semibold">Từ khóa:</label>
+
+                                        <input id="keywordRecord"
+                                               name="keyword"
+                                               class="form-control"
+                                               placeholder="Nhập tên, email, SDT, mã sách..."
+                                               th:value="${keyword}"
+                                               style="max-width: 260px;">
+
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            <i class="bi bi-search me-1"></i> Tìm
+                                        </button>
+                                        <div class="ms-auto">
+                                            <a th:href="@{/librarian/circulation(page=0, pageSize=10)}"
+                                               class="btn btn-outline-secondary text-dark text-decoration-none">
+                                                <i class="bi bi-arrow-repeat me-1"></i> Đặt lại
+                                            </a>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="col-auto ms-auto">
+                                    <form id="returnForm" method="post" th:action="@{/librarian/returned}" class="d-flex align-items-center">
+                                        <input type="hidden" name="status" value="RETURNED">
+                                        <button type="submit" class="btn btn-success">Đánh dấu đã trả</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0" id="tblReturn">
+                                <thead class="table-light">
+                                <tr>
+                                    <th style="width:36px"><input type="checkbox" id="chkAllReturn"/></th>
+                                    <th>ID</th>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>SDT</th>
+                                    <th>Mã sách</th>
+                                    <th>Tiêu đề</th>
+                                    <th class="text-nowrap">Vị trí</th>
+                                    <th>Ngày mượn</th>
+                                    <th>Hạn trả</th>
+                                    <th>Trạng thái</th>
+                                    <th>Tiền phạt</th>
+
+                                </tr>
+                                </thead>
+                                <tbody id="tbReturnBody">
+                                <tr th:each="record, iterStat : ${borrowRecord}"
+                                    th:if="${record.status.name() == 'BORROWED' or record.status.name() == 'LATE'}">
+
+                                <td>
+                                            <input type="checkbox" name="ids" th:value="${record.id}" form="returnForm"/>
+                                        </td>
+
+                                        <td th:text="${record.id}"></td>
+
+                                        <!-- USER INFO -->
+                                        <td th:text="${record.users.fullName}"></td>
+                                        <td th:text="${record.users.email}"></td>
+                                        <td th:text="${record.users.phoneNumber}"></td>
+
+                                        <!-- BOOK INFO -->
+                                        <td th:text="${record.books.bookCode}"></td>
+                                        <td th:text="${record.books.bookName}"></td>
+                                        <td class="fw-bold text-info"
+                                            th:text="${record.books.location != null ? record.books.location : '-'}">
+                                        </td>
+
+                                        <!-- DATES -->
+                                    <td th:text="${#temporals.format(record.borrowedDate, 'dd/MM/yyyy HH:mm')}"></td>
+                                    <td th:text="${#temporals.format(record.dueDate, 'dd/MM/yyyy')}"></td>
+
+                                        <!-- STATUS BADGE -->
+                                        <td>
+                                            <span th:if="${record.status.name() == 'LATE' or (record.status.name() == 'BORROWED' and record.dueDate != null and record.dueDate.isBefore(#temporals.createNow()))}"
+                                                  class="badge bg-danger">QUÁ HẠN</span>
+
+                                            <span th:if="${record.status.name() == 'BORROWED' and (record.dueDate == null or !record.dueDate.isBefore(#temporals.createNow()))}"
+                                                  class="badge bg-primary">ĐANG MƯỢN</span>
+
+                                            <span th:if="${record.status.name() == 'RETURNED'}"
+                                                  class="badge bg-success">ĐÃ TRẢ</span>
+
+                                            <span th:if="${record.status.name() == 'LOST'}"
+                                                  class="badge bg-secondary">MẤT SÁCH</span>
+                                        </td>
+
+                                        <td>
+                                            <span th:if="${record.realTimeFine gt 0}" class="text-danger fw-bold" th:text="${#numbers.formatDecimal(record.realTimeFine, 0, 'POINT', 0, 'COMMA')} + ' đ'"></span>
+                                            <span th:if="${record.realTimeFine gt 0 and record.status.name() != 'RETURNED'}" class="badge bg-warning text-dark" style="font-size: 0.6rem; vertical-align: top;">Dự kiến</span>
+                                            <span th:unless="${record.realTimeFine gt 0}" class="text-muted">-</span>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <nav th:if="${totalPages != null and totalPages > 0}" class="mt-3">
+                                <ul class="pagination">
+
+                                    <!-- Previous -->
+                                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/librarian/searchBorrowRecord(
+                                                page=${currentPage > 0 ? currentPage - 1 : 0},
+                                                pageSize=${pageSize},
+                                                keyword=${keyword}
+                                            )}">
+                                            Previous
+                                        </a>
+                                    </li>
+
+                                    <!-- Page numbers -->
+                                    <li class="page-item"
+                                        th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                        th:classappend="${i == currentPage} ? 'active'">
+                                        <a class="page-link"
+                                           th:text="${i + 1}"
+                                           th:href="@{/librarian/searchBorrowRecord(
+                                                page=${i},
+                                                pageSize=${pageSize},
+                                                keyword=${keyword}
+                                           )}">
+                                        </a>
+                                    </li>
+
+                                    <!-- Next -->
+                                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{/librarian/searchBorrowRecord(
+                                                    page=${currentPage < totalPages - 1 ? currentPage + 1 : totalPages - 1},
+                                                    pageSize=${pageSize},
+                                                    keyword=${keyword}
+                                               )}">
+                                            Next
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUÁ HẠN -->
+                <div class="tab-pane fade" id="overdue-pane">
+                    <div class="card mt-0">
+                        <div class="card-body border-bottom">
+                            <div class="row g-2 align-items-center">
+                                <div class="col-auto"><label for="extendDays" class="col-form-label">Gia hạn thêm (ngày):</label></div>
+                                <div class="col-auto"><input id="extendDays" type="number" min="1" value="7" class="form-control" style="width:120px"/></div>
+                                <div class="col-auto ms-auto d-flex gap-2">
+                                    <button id="btnMarkExtend" class="btn btn-outline-warning" type="button"><i class="bi bi-envelope-open me-1"></i> Nhận yêu cầu gia hạn</button>
+                                    <button id="btnDoExtend" class="btn btn-success" type="button" disabled><i class="bi bi-arrow-repeat me-1"></i> Gia hạn</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0" id="tblOverdue">
+                                <thead class="table-light">
+                                <tr>
+                                    <th style="width:36px"><input type="checkbox" id="chkAllOverdue"/></th>
+                                    <th>ID</th> <th>Tên</th> <th>Email</th> <th>SDT</th> <th>Mã sách</th> <th>Tiêu đề</th><th class="text-nowrap">Vị trí</th> <th>Hạn trả</th> <th>Quá hạn (ngày)</th> <th>Trạng thái</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbOverdueBody">
+                                <tr th:each="record, iterStat : ${overdueList}">
+                                    <td><input type="checkbox" name="overdueIds" th:value="${record.id}" /></td>
+                                    <td th:text="${record.id}"></td>
+                                    <td th:text="${record.users.fullName}"></td>
+                                    <td th:text="${record.users.email}"></td>
+                                    <td th:text="${record.users.phoneNumber}"></td>
+                                    <td th:text="${record.books.bookCode}"></td>
+                                    <td th:text="${record.books.bookName}"></td>
+                                    <td class="fw-bold text-info"
+                                        th:text="${record.books.location != null ? record.books.location : '-'}">
+                                    </td>
+                                    <td th:text="${#temporals.format(record.dueDate, 'dd/MM/yyyy')}"></td>
+                                    <td class="text-center"><span class="fw-bold text-danger" th:text="${T(java.lang.Math).round(record.realTimeFine / 5000)}"></span> ngày</td>
+                                    <td>
+                                        <span th:if="${record.status.name() == 'LATE' or (record.status.name() == 'BORROWED' and record.dueDate.isBefore(#temporals.createNow()))}"
+                                              class="badge bg-danger">QUÁ HẠN</span>
+
+                                        <span th:if="${record.status.name() == 'BORROWED' and !record.dueDate.isBefore(#temporals.createNow())}"
+                                              class="badge bg-primary">ĐANG MƯỢN</span>
+
+                                        <span th:if="${record.status.name() == 'RETURNED'}" class="badge bg-success">ĐÃ TRẢ</span>
+                                        <span th:if="${record.status.name() == 'LOST'}" class="badge bg-secondary">MẤT SÁCH</span>
+                                    </td>
+                                </tr>
+
+                                <tr th:if="${#lists.isEmpty(overdueList)}">
+                                    <td colspan="10" class="text-center text-muted py-4"><i class="bi bi-emoji-smile me-2"></i> Không có sách nào quá hạn!</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LỊCH SỬ -->
+                <div class="tab-pane fade" id="history-pane">
+                    <div class="card mt-0">
+                        <div class="table-responsive">
+                            <div class="d-flex align-items-center my-3 ms-3">
+                                <form  method="get" class="d-flex align-items-center">
+                                    <label for="historyReaderId" class="me-2">Mã độc giả:</label>
+                                    <input name="keyword" id="historyReaderId" type="text" class="form-control"
+                                           placeholder="VD: DG00123"
+                                           style="width: 200px; margin-right: 8px; border-radius: 8px;"/>
+                                    <button type="submit" class="btn btn-outline-primary"
+                                            style="border-radius: 8px; display: flex; align-items: center;">
+                                        <i class="bi bi-search me-1"></i> Tìm
+                                    </button>
+                                </form>
+                            </div>
+                            <table class="table align-middle mb-0" id="tblHistory">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>Stt</th>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>SDT</th>
+                                    <th>Mã sách</th>
+                                    <th>Tiêu đề</th>
+                                    <th class="text-nowrap">Vị trí</th>
+                                    <th>Ngày mượn</th>
+                                    <th>Ngày trả</th>
+                                    <th>Trạng thái</th>
+                                    <th>Tiền phạt</th>
+                                    <th>Ghi chú</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbHistoryBody">
+                                <tr th:each="record, iterStat : ${borrowRecord}">
+                                    <td th:text="${iterStat.count}"></td>
+                                    <!-- USER INFO -->
+                                    <td th:text="${record.users.fullName}"></td>
+                                    <td th:text="${record.users.email}"></td>
+                                    <td th:text="${record.users.phoneNumber}"></td>
+
+                                    <!-- BOOK INFO -->
+                                    <td th:text="${record.books.bookCode}"></td>
+                                    <td th:text="${record.books.bookName}"></td>
+                                    <td class="fw-bold text-info"
+                                        th:text="${record.books.location != null ? record.books.location : '-'}">
+                                    </td>
+
+                                    <!-- DATES -->
+                                    <td th:text="${#temporals.format(record.borrowedDate, 'dd/MM/yyyy HH:mm')}"></td>
+                                    <td th:text="${#temporals.format(record.returnDate, 'dd/MM/yyyy HH:mm')}"></td>
+
+                                    <td>
+                                            <span th:class="'badge ' + (${record.status.name()} == 'BORROWED' ? 'bg-primary' :
+                                                                          (${record.status.name()} == 'RETURNED' ? 'bg-success' :
+                                                                          (${record.status.name()} == 'LATE' ? 'bg-warning text-dark' :
+                                                                'bg-danger' )))"
+
+                                                  th:text="${record.status.name() == 'BORROWED' ? 'ĐANG MƯỢN' :
+                                                            (record.status.name() == 'RETURNED' ? 'ĐÃ TRẢ' :
+                                                            (record.status.name() == 'LATE' ? 'QUÁ HẠN' :
+                                                            (record.status.name() == 'LOST' ? 'MẤT SÁCH' : 'KHÁC')))}">
+                                            </span>
+                                    </td>
+                                    <td>
+                                        <span th:if="${record.realTimeFine gt 0}" class="text-danger fw-bold" th:text="${#numbers.formatDecimal(record.realTimeFine, 0, 'POINT', 0, 'COMMA')} + ' đ'"></span>
+                                        <span th:unless="${record.realTimeFine gt 0}">-</span>
+                                    </td>
+                                    <td th:text="${record.note != null ? record.note : '-'}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Offcanvas & Modals giữ nguyên cấu trúc (rút gọn phần comment trong câu gốc) -->
+
+            <!-- Offcanvas CHI TIẾT -->
+            <div class="offcanvas offcanvas-end" id="detailCanvas" tabindex="-1" aria-labelledby="detailCanvasLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="detailCanvasLabel">Chi tiết yêu cầu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body" id="detailBody"></div>
+                <div class="px-3 pb-3 d-flex gap-2">
+                    <button id="btnDetailReject" class="btn btn-outline-danger w-50" type="button">Từ chối</button>
+                    <button id="btnDetailApprove" class="btn btn-success w-50" type="button">Duyệt</button>
+                </div>
+            </div>
+
+            <!-- Modal TẠO PHIẾU MƯỢN -->
+            <div class="modal fade" id="loanModal" tabindex="-1" aria-labelledby="loanModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+
+                        <!-- FORM BẮT ĐẦU -->
+                        <form th:action="@{/librarian/saveBorrowRecord}" method="post" novalidate>
+
+
+                        <div class="modal-header">
+                                <h5 class="modal-title"><i class="bi bi-file-earmark-plus me-1"></i> Tạo phiếu mượn</h5>
+                                <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <!-- Row 1: ID + Borrow Date + Return Date -->
+                                <div class="row g-3">
+                                    <div class="col-sm-6 col-md-4">
+                                        <label class="form-label">Số phiếu</label>
+                                        <input type="text" class="form-control" id="loanId" readonly />
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4">
+                                        <label class="form-label">Ngày mượn</label>
+                                        <input type="datetime-local" class="form-control" name="borrowDate" id="borrowDate" required />
+                                        <div class="invalid-feedback">Vui lòng chọn ngày mượn.</div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4">
+                                        <label class="form-label">Ngày trả dự kiến</label>
+                                        <input type="datetime-local" class="form-control" name="returnDate" id="returnDate" required />
+                                        <div class="invalid-feedback">Vui lòng chọn ngày trả.</div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-3" />
+
+                                <!-- USER INFO -->
+                                <h6 class="fw-bold">Thông tin độc giả</h6>
+
+                                <div class="row g-3">
+                                    <div class="col-sm-6 col-md-4">
+                                        <label class="form-label">Tên độc giả</label>
+                                        <input type="text" class="form-control" name="fullName" id="readerName" required />
+                                        <div class="invalid-feedback">Nhập tên độc giả.</div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="readerEmail" />
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4">
+                                        <label class="form-label">SDT</label>
+                                        <input type="text" class="form-control" name="phoneNumber" id="readerPhone" required />
+                                        <div class="invalid-feedback">Nhập số điện thoại.</div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-3" />
+
+                                <!-- BOOK INFO -->
+                                <h6 class="fw-bold">Thông tin sách</h6>
+
+                                <div class="row g-3">
+                                    <div class="col-sm-6 col-md-4">
+                                        <label class="form-label">Mã sách</label>
+                                        <input type="text" class="form-control" name="bookCode" id="bookCode" required />
+                                        <div class="invalid-feedback">Nhập mã sách.</div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-8">
+                                        <label class="form-label">Tên sách</label>
+                                        <input type="text" class="form-control" name="bookName" id="bookTitle" required />
+                                        <div class="invalid-feedback">Nhập tiêu đề sách.</div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-3" />
+
+                                <!-- STATUS & NOTE -->
+                                <div class="row g-3">
+                                    <div class="col-sm-6 col-md-4">
+                                        <label class="form-label">Trạng thái</label>
+                                        <select class="form-select" name="borrowStatus" id="status" required>
+                                            <option value="BORROWED">BORROWED</option>
+                                            <option value="RETURNED">RETURNED</option>
+                                            <option value="LATE">LATE</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-8">
+                                        <label class="form-label">Ghi chú</label>
+                                        <textarea class="form-control" name="note" id="note" rows="2"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary ms-auto">
+                                    <i class="bi bi-check2-circle me-1"></i> Tạo phiếu
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Modal DANH SÁCH YÊU CẦU -->
+                <div class="modal fade modal-fixed-scroll" id="reserveListModal" tabindex="-1" aria-labelledby="reserveListModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="reserveListModalLabel">
+                                    <i class="bi bi-journal-text me-1"></i> Danh sách yêu cầu mượn/đặt sách
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="table-responsive">
+                                    <table class="table align-middle mb-0" id="tblReserveListModal">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Thời gian</th>
+<!--                                            <th>Thời hạn</th>-->
+                                            <th>Độc giả</th>
+                                            <th>Mã sách</th>
+                                            <th>Tiêu đề</th>
+                                            <th>Trạng thái</th>
+                                            <th>Liên hệ</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Dữ liệu Thymeleaf -->
+                                        <tr th:each="req, iterStat : ${borrowRequest}">
+                                            <td th:text="${iterStat.count}"></td>
+                                            <td th:text="${#temporals.format(req.createAt, 'dd/MM/yyyy HH:mm')}"></td>
+<!--                                            <td th:text="${#temporals.format(req.deadline, 'dd/MM/yyyy HH:mm')}"></td>-->
+                                            <td th:text="${req.users.fullName}"></td>
+                                            <td th:text="${req.books.bookCode}"></td>
+                                            <td th:text="${req.books.bookName}"></td>
+                                            <td>
+                                                <span th:switch="${req.books.status}" class="badge">
+                                                    <span th:case="'Đang lưu thông'" class="text-bg-success" th:text="${req.books.status}"></span>
+
+                                                    <span th:case="'Tạm ngưng'" class="text-bg-warning" th:text="${req.books.status}"></span>
+
+                                                    <span th:case="'Hết sách'" class="text-bg-danger" th:text="${req.books.status}"></span>
+
+                                                    <span th:case="*" class="text-bg-secondary" th:text="${req.books.status}"></span>
+                                                </span>
+                                            </td>                                            <td th:text="${req.users.phoneNumber}"></td>
+                                            <td class="d-flex gap-2">
+                                                <!-- Form Chấp nhận -->
+                                                <form th:action="@{/librarian/accept}" method="post">
+                                                    <input type="hidden" name="userId" th:value="${req.users.id}" />
+                                                    <input type="hidden" name="bookId" th:value="${req.books.id}" />
+                                                    <input type="hidden" name="requestId" th:value="${req.id}" />
+                                                    <button type="submit" class="btn btn-success btn-sm">Chấp nhận</button>
+                                                </form>
+
+                                                <!-- Form Từ chối -->
+                                                <form th:action="@{/librarian/reject}" method="post">
+                                                    <input type="hidden" name="requestId" th:value="${req.id}" />
+                                                    <button type="submit" class="btn btn-danger btn-sm">Từ chối</button>
+                                                </form>
+                                            </td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" data-bs-dismiss="modal" type="button">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            <!-- Offcanvas THÔNG BÁO -->
+            <div class="offcanvas offcanvas-end" id="offcanvasNotifications" tabindex="-1" aria-labelledby="offcanvasNotificationsLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNotificationsLabel">
+                        <i class="bi bi-bell me-2"></i>Thông báo
+                    </h5>
+                    <button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body p-0">
+                    <div id="notiList" class="list-group list-group-flush"></div>
+                </div>
+            </div>
+
+            <!-- Toast -->
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="toastMsg" class="toast text-bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body" id="toastBody">...</div>
+                        <button type="button" class="btn-close btn-close-white m-auto me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap CSS + JS cần load -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<!-- JS dự án (từ /static) -->
+<script defer th:src="@{/js/librarian/header.js}"></script>
+<script defer th:src="@{/js/librarian/sidebar.js}"></script>
+<script defer th:src="@{/js/librarian/inject-layout.js}"></script>
+
+<!--websocket request borrow book -->
+<script>
+    let stompClient = null;
+    function connectWebSocket() {
+        const socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+
+            // Subscribe topic server gửi borrow request mới
+            stompClient.subscribe('/topic/orderBook', function(message) {
+                const req = JSON.parse(message.body);
+                addReserveToTable(req);
+            });
+        });
+    }
+    function addReserveToTable(req) {
+        const tbody = document.querySelector('#tblReserveListModal tbody');
+        if (!tbody) return;
+        const row = tbody.insertRow();
+        const rowCount = tbody.rows.length;
+         row.insertCell(0).innerText = rowCount;
+    row.insertCell(1).innerText = new Date(req.createdAt).toLocaleString();
+
+    row.insertCell(2).innerText = new Date(req.deadline).toLocaleString();
+
+    row.insertCell(3).innerText = req.fullName;
+    row.insertCell(4).innerText = req.bookCode;
+    row.insertCell(5).innerText = req.bookName;
+    row.insertCell(6).innerText = req.statusLabel;
+    row.insertCell(7).innerText = req.phone;
+        const actionCell = row.insertCell(6);
+        actionCell.className = 'd-flex gap-2';
+        const acceptForm = document.createElement('form');
+        acceptForm.method = 'post';
+        acceptForm.action = '/librarian/accept';
+        acceptForm.innerHTML = `
+            <input type="hidden" name="userRecordId" value="${req.userId}" />
+            <input type="hidden" name="bookRecordId" value="${req.bookId}" />
+            <input type="hidden" name="requestId" value="${req.requestId}" />
+            <button type="submit" class="btn btn-success btn-sm">Chấp nhận</button>
+        `;
+        actionCell.appendChild(acceptForm);
+        const rejectForm = document.createElement('form');
+        rejectForm.method = 'post';
+        rejectForm.action = '/api/record/reject';
+        rejectForm.innerHTML = `
+            <input type="hidden" name="requestId" value="${req.requestId}" />
+            <button type="submit" class="btn btn-danger btn-sm">Từ chối</button>
+        `;
+        actionCell.appendChild(rejectForm);
+    }
+    connectWebSocket();
+</script>
+
+<!-- check box trả sách -->
+<script>
+    document.getElementById('chkAllReturn').addEventListener('change', function() {
+        const checked = this.checked;
+        document.querySelectorAll('#tbReturnBody input[name="ids"]').forEach(cb => cb.checked = checked);
+    });
+
+</script>
+
+<!-- check box xát nhận mượn -->
+<script>
+    document.querySelectorAll(".chkBorrow").forEach(chk => {
+        chk.addEventListener("change", function() {
+            if (this.checked) {
+                document.getElementById("borrowingIdField").value = this.value;
+            }
+        });
+    });
+</script>
+
+<!-- Thông báo số lượng trong yêu cầu-->
+<script>
+    function updateReserveBadge() {
+      const table = document.getElementById('tblReserveListModal');
+      const badge = document.getElementById('reserveBadge');
+
+      if (!table) return;
+
+      const rowCount = table.querySelectorAll('tbody tr').length;
+
+      if (rowCount > 0) {
+          badge.style.display = 'inline-block';
+          badge.textContent = rowCount;
+      } else {
+          badge.style.display = 'none';
+      }
+  }
+
+  // Gọi khi trang load xong
+  document.addEventListener('DOMContentLoaded', updateReserveBadge);
+
+  // Nếu muốn update mỗi lần modal mở
+  const reserveModal = document.getElementById('reserveListModal');
+  reserveModal.addEventListener('show.bs.modal', updateReserveBadge);
+
+</script>
+
+
+<!-- Script mở modal tạo phiếu -->
+<script>
+    document.getElementById("btnOpenLoan")?.addEventListener("click", () => {
+        new bootstrap.Modal(document.getElementById("loanModal")).show();
+    });
+</script>
+<script>
+    document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tab => {
+        tab.addEventListener('shown.bs.tab', function(e){
+            localStorage.setItem('activeTab', e.target.getAttribute('data-bs-target'));
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function(){
+        const activeTab = localStorage.getItem('activeTab');
+        if(activeTab){
+            const tabButton = document.querySelector(`button[data-bs-target="${activeTab}"]`);
+            if(tabButton){
+                bootstrap.Tab.getOrCreateInstance(tabButton).show();
+            }
+        }
+    });
+</script>
+<script>
+    // Xử lý nút "Chọn tất cả" ở Tab Quá Hạn
+    const chkAllOverdue = document.getElementById('chkAllOverdue');
+    if (chkAllOverdue) {
+        chkAllOverdue.addEventListener('change', function() {
+            const isChecked = this.checked;
+            // Tìm tất cả checkbox con trong bảng Overdue và set trạng thái theo nút tổng
+            document.querySelectorAll('#tbOverdueBody input[name="overdueIds"]').forEach(cb => {
+                cb.checked = isChecked;
+            });
+        });
+    }
+</script>
+</body>
+</html>
