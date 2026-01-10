@@ -1,0 +1,122 @@
+.library-footer {
+  /* Nền chính của footer */
+  background: #0b4b87; /* Xanh đậm, cảm giác công nghệ hiện đại */
+  color: #e3e8e7;
+  padding: 60px 0 30px; /* Khoảng cách trên/dưới toàn bộ footer */
+  font-family: "Roboto", sans-serif;
+}
+
+/* ====== CONTAINER CHÍNH CHIA 3 CỘT ====== */
+.footer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3 cột chia đều */
+  gap: 60px;                          /* Khoảng cách ngang giữa các cột */
+  max-width: 1200px;                  /* Giới hạn chiều rộng tổng thể */
+  margin: auto;
+  padding: 0 30px;                    /* Padding hai bên để nội dung không dính mép màn hình */
+  align-items: start;                 /* Căn đỉnh các cột → tiêu đề ngang hàng */
+}
+
+/* ====== TIÊU ĐỀ CHUNG CHO CẢ 3 CỘT ====== */
+.footer-container h4 {
+  margin: 0 0 25px;                   /* Khoảng cách dưới tiêu đề tạo không gian với nội dung */
+  font-size: 1.3rem;
+  font-weight: bold;                   /* Chữ đậm vừa phải */
+  letter-spacing: 0.5px;              /* Giãn chữ nhẹ, hiện đại */
+  color: #ffffff ;                    /* Xanh blue chủ đạo */
+  text-transform: uppercase;          /* Toàn bộ chữ viết hoa cho đồng bộ */
+}
+
+/* ====== CỘT 1: GIỚI THIỆU ====== */
+.footer-about {
+  margin-top: 10px;                   /* Khoảng cách trên riêng cho cột này */
+  margin-bottom: 10px;                /* Khoảng cách dưới để tách khỏi đường viền */
+}
+.footer-about p {
+  margin: 0 0 8px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* ====== CỘT 2: TIN MỚI ====== */
+.footer-news {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.footer-news ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.footer-news li {
+  display: flex;              /* Icon + text trên cùng hàng */
+  align-items: center;        /* Icon căn giữa theo chiều cao */
+  gap: 8px;                   /* Khoảng cách giữa icon và chữ */
+  margin-bottom: 12px;        /* Khoảng cách giữa các dòng tin */
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.footer-news li i {
+  width: 22px;                /* Đảm bảo icon chiếm chiều ngang cố định */
+  text-align: center;         /* Icon luôn giữa khung */
+  font-size: 1rem;
+  color: #ff9800;             /* Xanh blue cho icon để đồng bộ chủ đạo */
+}
+
+/* ====== CỘT 3: THỐNG KÊ ====== */
+.footer-stats {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.stat-item i {
+  width: 22px;
+  text-align: center;
+  font-size: 1.3rem;
+  color: #ff9800; /* Icon màu xanh chủ đạo */
+  flex-shrink: 0;
+}
+.stat-item span {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+}
+.stat-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #e3e8e7;
+}
+
+/* ====== DÒNG DƯỚI CÙNG (BẢN QUYỀN + ĐIỀU HƯỚNG) ====== */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #1e2a38;
+  margin-top: 40px;
+  padding-top: 20px; /* Khoảng cách trên tách bản quyền khỏi nội dung trên */
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.footer-copy {
+  font-size: 0.85rem;
+  color: #e3e8e7
+}
+.footer-nav a {
+  margin-left: 15px;
+  font-size: 0.9rem;
+  color: #e3e8e7;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+.footer-nav a:hover {
+  color: #94cbff; /* Hover đổi sang xanh chủ đạo */
+}

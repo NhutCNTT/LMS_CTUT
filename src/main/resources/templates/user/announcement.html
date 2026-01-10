@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Thông báo — Thư viện CTUT</title>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/user/logo_tab.PNG}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+
+    <!-- CSS khối USER -->
+    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/user/header.css}">
+    <link rel="stylesheet" th:href="@{/css/user/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/user/announcement.css}">
+</head>
+
+<body class="announce-page">
+<!-- Header (Thymeleaf fragment) -->
+<div th:replace="~{components/user/header :: header}"></div>
+
+<main>
+    <!-- ============== HERO ============== -->
+    <section class="announce-hero py-5">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                    <span class="hero-badge"><i class="bi bi-broadcast-pin"></i> Trang Thông báo Thư viện</span>
+                    <h1 class="mt-3 mb-2">Cập nhật nhanh – Chính xác – Đồng bộ</h1>
+                    <p class="lead mb-4">Nơi đăng tải các thông báo quan trọng: lịch phục vụ, sự kiện, hướng dẫn và tài nguyên số.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="tag"><i class="bi bi-pin-angle"></i>Thông báo gấp</span>
+                        <span class="tag"><i class="bi bi-calendar-event"></i>Sự kiện</span>
+                        <span class="tag"><i class="bi bi-cloud-arrow-down"></i>Tài nguyên</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="filter-wrap">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                            <input id="announce-search" type="text" class="form-control search-input" placeholder="Tìm theo tiêu đề, từ khoá..." />
+                            <button id="announce-clear" class="btn btn-outline-secondary">Xoá</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== THÔNG BÁO QUAN TRỌNG ============== -->
+    <section id="important" class="py-4">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="bi bi-pin-angle-fill text-primary"></i> Thông báo quan trọng</h2>
+                <a class="view-all" href="#">Xem tất cả</a>
+            </div>
+
+            <div class="row g-3" id="grid-important">
+                <!-- Card 1 -->
+                <div class="col-md-6 col-lg-4" data-category="urgent">
+                    <article class="notice-card position-relative h-100">
+                        <div class="thumb"><i class="bi bi-exclamation-triangle"></i></div>
+                        <span class="badge badge-important rounded-pill px-3 py-1">Gấp</span>
+                        <div class="p-3">
+                            <h5 class="mb-2">Tạm ngưng phục vụ khu A (bảo trì hệ thống)</h5>
+                            <p class="meta mb-2"><i class="bi bi-clock"></i>Hiệu lực: 24–26/09 • <i class="bi bi-geo"></i>Khu A</p>
+                            <p class="mb-3">Trong thời gian bảo trì, vui lòng sử dụng phòng đọc khu B/C. Mượn trả vẫn hoạt động bình thường.</p>
+                            <a href="#" class="btn btn-sm btn-primary">Chi tiết</a>
+                        </div>
+                    </article>
+                </div>
+                <!-- Card 2 -->
+                <div class="col-md-6 col-lg-4" data-category="schedule">
+                    <article class="notice-card position-relative h-100">
+                        <div class="thumb"><i class="bi bi-calendar2-week"></i></div>
+                        <div class="p-3">
+                            <h5 class="mb-2">Lịch phục vụ tuần 39 (23–29/09)</h5>
+                            <p class="meta mb-2"><i class="bi bi-clock"></i>Áp dụng từ 23/09</p>
+                            <p class="mb-3">Cập nhật thời gian mở cửa, khu vực đọc, và các quầy hỗ trợ trong tuần.</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Xem lịch</a>
+                        </div>
+                    </article>
+                </div>
+                <!-- Card 3 -->
+                <div class="col-md-6 col-lg-4" data-category="guide">
+                    <article class="notice-card position-relative h-100">
+                        <div class="thumb"><i class="bi bi-journal-check"></i></div>
+                        <div class="p-3">
+                            <h5 class="mb-2">Hướng dẫn trích dẫn APA 7 cho báo cáo khoá luận</h5>
+                            <p class="meta mb-2"><i class="bi bi-tags"></i>Tài liệu • <i class="bi bi-clock-history"></i>10 phút đọc</p>
+                            <p class="mb-3">Tổng hợp quy tắc căn bản và ví dụ chuẩn để sinh viên dễ áp dụng.</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Đọc hướng dẫn</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== THÔNG BÁO MỚI NHẤT ============== -->
+    <section id="latest" class="py-4">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="bi bi-stars text-primary"></i> Thông báo mới nhất</h2>
+                <a class="view-all" href="#">Xem tất cả</a>
+            </div>
+
+            <div class="row g-3" id="grid-latest">
+                <div class="col-md-6 col-lg-4" data-category="event">
+                    <article class="notice-card h-100">
+                        <div class="thumb"><i class="bi bi-megaphone"></i></div>
+                        <div class="p-3">
+                            <h5 class="mb-2">Workshop: Tìm kiếm học thuật với Scopus & Web of Science</h5>
+                            <p class="meta mb-2"><i class="bi bi-calendar-event"></i>28/09 • <i class="bi bi-geo"></i>Phòng Hội thảo</p>
+                            <p class="mb-3">Đăng ký tham dự để nhận chứng nhận kỹ năng thông tin (ILC).</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <span class="badge text-bg-light border">event</span>
+                                <span class="badge text-bg-light border">ILC</span>
+                                <span class="badge text-bg-light border">database</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-md-6 col-lg-4" data-category="resource">
+                    <article class="notice-card h-100">
+                        <div class="thumb"><i class="bi bi-cloud-arrow-down"></i></div>
+                        <div class="p-3">
+                            <h5 class="mb-2">Phát hành bộ eBook “Kỹ năng Nghiên cứu khoa học”</h5>
+                            <p class="meta mb-2"><i class="bi bi-clock"></i>27/09 • Bản quyền trường</p>
+                            <p class="mb-3">Tải về miễn phí cho sinh viên, truy cập bằng email @stu.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <span class="badge text-bg-light border">ebook</span>
+                                <span class="badge text-bg-light border">resource</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-md-6 col-lg-4" data-category="schedule">
+                    <article class="notice-card h-100">
+                        <div class="thumb"><i class="bi bi-door-open"></i></div>
+                        <div class="p-3">
+                            <h5 class="mb-2">Điều chỉnh giờ mở cửa thư viện (tháng 10)</h5>
+                            <p class="meta mb-2"><i class="bi bi-clock-history"></i>Hiệu lực từ 01/10</p>
+                            <p class="mb-3">Mở cửa sớm hơn 30 phút vào các ngày thi và cao điểm.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <span class="badge text-bg-light border">schedule</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== DÒNG THỜI GIAN ============== -->
+    <section id="timeline" class="py-4">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="bi bi-activity text-primary"></i> Dòng thời gian</h2>
+                <a class="view-all" href="#">Lưu trữ</a>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <ol class="timeline list-unstyled">
+                        <li class="timeline-item">
+                            <span class="timeline-bullet"></span>
+                            <div class="ms-4">
+                                <h6 class="mb-1">Cập nhật quy định mượn tài liệu sau 19h</h6>
+                                <div class="meta">22/09 • Áp dụng toàn thư viện</div>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <span class="timeline-bullet"></span>
+                            <div class="ms-4">
+                                <h6 class="mb-1">Bổ sung 500+ đầu sách chuyên ngành CNTT</h6>
+                                <div class="meta">18/09 • Tầng 3 – Kho mở</div>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <span class="timeline-bullet"></span>
+                            <div class="ms-4">
+                                <h6 class="mb-1">Khai trương khu học nhóm mới</h6>
+                                <div class="meta">12/09 • Khu B</div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-5">
+                    <div class="p-3 rounded-3 border helper-box">
+                        <h6 class="fw-bold">Tải biểu mẫu nhanh</h6>
+                        <div class="d-grid gap-2 mt-2">
+                            <a class="btn btn-outline-primary" href="#"><i class="bi bi-file-text me-2"></i>Mẫu gia hạn mượn</a>
+                            <a class="btn btn-outline-primary" href="#"><i class="bi bi-file-earmark-check me-2"></i>Mẫu đăng ký workshop</a>
+                            <a class="btn btn-outline-primary" href="#"><i class="bi bi-shield-lock me-2"></i>Quy định phòng máy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== ĐĂNG KÝ NHẬN THÔNG BÁO ============== -->
+    <section id="subscribe" class="py-5 subscribe-bg">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6">
+                    <h2 class="fw-bold">Nhận thông báo qua email</h2>
+                    <p class="text-secondary mb-3">Đăng ký để không bỏ lỡ thông tin quan trọng: thay đổi lịch, học bổng, tài nguyên mới…</p>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-white"><i class="bi bi-envelope"></i></span>
+                        <input type="email" class="form-control" placeholder="you@stu.edu.vn" />
+                        <button class="btn btn-primary">Đăng ký</button>
+                    </div>
+                    <div class="form-text">Chúng tôi chỉ gửi nội dung liên quan đến học tập và thư viện.</div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="p-3 rounded-4 tip-box">
+                        <div class="d-flex gap-3 align-items-start">
+                            <i class="bi bi-lightbulb fs-2 text-primary"></i>
+                            <div>
+                                <div class="fw-bold">Mẹo:</div>
+                                <div class="text-secondary">Gắn nhãn <strong>[LIB]</strong> ở tiêu đề email để lọc nhanh thông báo thư viện.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer (Thymeleaf fragment) -->
+<div th:replace="~{components/user/footer :: userFooter}"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Nếu cần các script user (không fetch header/footer nữa) -->
+<script th:src="@{/js/user/layout.js}"></script>
+<script th:src="@{/js/user/active-menu.js}"></script>
+<!-- (Không dùng /js/user/header.js và /js/user/footer.js vì chúng fetch HTML; đã thay bằng fragment) -->
+</body>
+</html>

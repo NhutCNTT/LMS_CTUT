@@ -1,0 +1,210 @@
+/* Container cho nội dung trong dashboard layout */
+.user-card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+/* Bảng người dùng */
+.table {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead {
+    background: #1976d2;
+    color: white;
+}
+
+.table thead th {
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.table tbody tr:hover {
+    background: #f2f6fc;
+}
+
+/* Badge cho role */
+.role-badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Role mapping với enum: USERS, ADMIN, Librarian */
+.role-ADMIN {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.role-USERS {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.role-Librarian {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+/* Responsive chỉnh nhẹ cho mobile */
+@media (max-width: 768px) {
+    .user-card .card-body {
+        padding: 12px;
+    }
+
+    .table thead {
+        font-size: 12px;
+    }
+
+    .table tbody td {
+        font-size: 13px;
+    }
+}
+
+
+/* Card bao quanh bảng */
+.user-card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+/* Badge hiển thị quyền (Role) */
+.role-badge {
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Màu sắc riêng cho từng quyền */
+/* Lưu ý: Tên class phải khớp với Enum Role của bạn (ADMIN, Librarian, User) */
+
+.role-badge.role-ADMIN {
+    background-color: #ffe0e3; /* Hồng nhạt */
+    color: #d63384;            /* Chữ hồng đậm */
+}
+
+.role-badge.role-Librarian {
+    background-color: #e0cffc; /* Tím nhạt */
+    color: #6f42c1;            /* Chữ tím đậm */
+}
+
+.role-badge.role-User,
+.role-badge.role-USER {        /* Dự phòng cả viết hoa/thường */
+    background-color: #cfe2ff; /* Xanh dương nhạt */
+    color: #0d6efd;            /* Chữ xanh đậm */
+}
+
+/* Các nút bấm nhỏ trong bảng */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 6px;
+}
+
+/* Form chỉnh sửa quyền */
+.form-select-sm {
+    border-radius: 6px;
+    border-color: #dee2e6;
+}
+
+/* Căn chỉnh bảng */
+.table > :not(caption) > * > * {
+    padding: 1rem 0.75rem; /* Tăng khoảng cách dòng cho thoáng */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Card bao quanh bảng */
+.user-card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+/* Badge hiển thị quyền (Role) */
+.role-badge {
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Màu sắc riêng cho từng quyền */
+/* Lưu ý: Tên class phải khớp với Enum Role của bạn (ADMIN, Librarian, User) */
+
+.role-badge.role-ADMIN {
+    background-color: #ffe0e3; /* Hồng nhạt */
+    color: #d63384;            /* Chữ hồng đậm */
+}
+
+.role-badge.role-Librarian {
+    background-color: #e0cffc; /* Tím nhạt */
+    color: #6f42c1;            /* Chữ tím đậm */
+}
+
+.role-badge.role-User,
+.role-badge.role-USER {        /* Dự phòng cả viết hoa/thường */
+    background-color: #cfe2ff; /* Xanh dương nhạt */
+    color: #0d6efd;            /* Chữ xanh đậm */
+}
+
+/* Các nút bấm nhỏ trong bảng */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 6px;
+}
+
+/* Form chỉnh sửa quyền */
+.form-select-sm {
+    border-radius: 6px;
+    border-color: #dee2e6;
+}
+
+/* Căn chỉnh bảng */
+.table > :not(caption) > * > * {
+    padding: 1rem 0.75rem; /* Tăng khoảng cách dòng cho thoáng */
+}

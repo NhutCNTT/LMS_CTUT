@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Thông tin độc giả — Thư viện CTUT</title>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/user/logo_tab.PNG}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <!-- CSS khối USER -->
+    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/user/header.css}">
+    <link rel="stylesheet" th:href="@{/css/user/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/user/profile.css}">
+</head>
+
+<body>
+<!-- Header (fragment) -->
+<div th:replace="~{components/user/header :: header}"></div>
+
+<main class="container py-4 profile-page">
+
+    <!-- Tiêu đề + breadcrumb nếu muốn -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h4 class="fw-bold mb-0">Thông tin độc giả</h4>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a th:href="@{/user/home}">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Thông tin độc giả</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- ===== Khối 1: Thông tin thẻ thư viện ===== -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <!-- Cột trái: Avatar + mã độc giả + họ tên -->
+                <div class="col-md-3 text-center border-end">
+                    <!-- Avatar: sau này có thể thay bằng ảnh thật -->
+                    <div class="reader-avatar-wrapper mx-auto mb-3">
+                        <img src="https://via.placeholder.com/160"
+                             alt="Ảnh độc giả"
+                             class="img-fluid rounded-circle reader-avatar-img">
+                    </div>
+
+                    <p class="mb-1">
+                        <span class="text-muted">Mã độc giả:</span>
+                        <span class="fw-bold" th:text="'DG' + ${userProfile.id}"></span>
+                    </p>
+                    <p class="mb-1">
+                        <span class="text-muted">Họ tên:</span>
+                        <span class="fw-bold" th:text="${userProfile.fullName}"></span>
+                    </p>
+                    <p class="mb-0">
+                        <span class="text-muted">Giới tính:</span>
+                        <span class="fw-bold">
+                            <!-- th:text="${reader.gender}" -->
+                            Nam
+                        </span>
+                    </p>
+                </div>
+
+                <!-- Cột phải: Thông tin thẻ -->
+                <div class="col-md-9 ps-md-4">
+                    <h5 class="fw-bold mb-3">Thông tin thẻ thư viện</h5>
+
+                    <div class="row small info-row">
+                        <div class="col-md-4 mb-2">
+                            <span class="text-muted">Loại độc giả:</span>
+                            <span class="fw-bold">
+                                <!-- th:text="${reader.type}" -->
+                               —
+                            </span>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <span class="text-muted">Trạng thái thẻ:</span>
+                            <span class="fw-bold text-success" th:text="${userProfile.userStatus}">
+                            </span>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <span class="text-muted">Ngày cấp thẻ:</span>
+                            <span class="fw-bold">
+                                <!-- th:text="${#temporals.format(reader.issueDate,'dd/MM/yyyy')}" -->
+                               —
+                            </span>
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+                            <span class="text-muted">Ngày hết hạn:</span>
+                            <span class="fw-bold">
+                                <!-- th:text="${#temporals.format(reader.expireDate,'dd/MM/yyyy')}" -->
+                                —
+                            </span>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <span class="text-muted">Đơn vị:</span>
+                            <span class="fw-bold" th:text="${userProfile.faculties}">
+                            </span>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <span class="text-muted">Ghi chú:</span>
+                            <span class="fw-bold">
+                                <!-- th:text="${reader.note}" -->
+                                —
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Tóm tắt tình trạng mượn (tùy chọn, sau này đổ dữ liệu) -->
+                    <div class="row mt-3 g-2 reader-stats">
+                        <div class="col-sm-4">
+                            <div class="stat-box">
+                                <div class="stat-label">Sách đang mượn</div>
+                                <div class="stat-value">
+                                    <div class="fw-bold text-primary" th:text="${totalBorrowing}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="stat-box">
+                                <div class="stat-label">Sách quá hạn</div>
+                                <div class="stat-value text-danger">
+                                    <div class="fw-bold text-primary" th:text="${totalLate}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="stat-box">
+                                <div class="stat-label">Tổng lượt mượn</div>
+                                <div class="stat-value">
+                                    <div class="fw-bold" th:text="${totalBorrow}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- end col-md-9 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Khối 2: Thông tin cá nhân ===== -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="fw-bold mb-3">Thông tin cá nhân</h5>
+
+            <div class="row small info-row">
+                <div class="col-md-3 mb-2">
+                    <span class="text-muted">Ngày sinh:</span>
+                    <span class="fw-bold"
+                          th:text="${#temporals.format(userProfile.dateOfBirth, 'dd/MM/yyyy')}">
+                    </span>
+
+                </div>
+                <div class="col-md-3 mb-2">
+                    <span class="text-muted">Dân tộc:</span>
+                    <span class="fw-bold">
+                        <!-- th:text="${reader.ethnicity}" -->
+                       —
+                    </span>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <span class="text-muted">Quốc tịch:</span>
+                    <span class="fw-bold">
+                        <!-- th:text="${reader.nationality}" -->
+                       —
+                    </span>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <span class="text-muted">Số CCCD/CMND:</span>
+                    <span class="fw-bold">
+                        <!-- th:text="${reader.identityNumber}" -->
+
+                    </span>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <span class="text-muted">Nơi sinh:</span>
+                    <span class="fw-bold">
+                        <!-- th:text="${reader.placeOfBirth}" -->
+                        —
+                    </span>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <span class="text-muted">Đối tượng:</span>
+                    <span class="fw-bold">
+                        <!-- th:text="${reader.category}" -->
+                        —
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Khối 3: Thông tin liên hệ ===== -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="fw-bold mb-3">Thông tin liên hệ</h5>
+
+            <div class="row small info-row">
+                <div class="col-md-4 mb-2">
+                    <span class="text-muted">Điện thoại:</span>
+                    <span class="fw-bold" th:text="${userProfile.phoneNumber}">
+                    </span>
+                </div>
+                <div class="col-md-8 mb-2">
+                    <span class="text-muted">Email:</span>
+                    <span class="fw-bold" th:text="${userProfile.email}">
+
+                    </span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <span class="text-muted">Địa chỉ liên hệ:</span>
+                    <span class="fw-bold">
+                        <!-- th:text="${reader.contactAddress}" -->
+
+                    </span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <span class="text-muted">Địa chỉ hộ khẩu:</span>
+                    <span class="fw-bold" th:text="${userProfile.address}">
+
+
+                    </span>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <span class="text-muted">Đơn vị công tác / học tập:</span>
+                    <span class="fw-bold">
+                        <!-- th:text="${reader.workPlace}" -->
+                        Trường Đại học Kỹ thuật - Công nghệ Cần Thơ
+                    </span>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <span class="text-muted">Ghi chú liên hệ:</span>
+                    <span class="fw-bold">
+                        <!-- th:text="${reader.contactNote}" -->
+                        —
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- Footer (fragment) -->
+<div th:replace="~{components/user/footer :: userFooter}"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/user/layout.js}"></script>
+<script th:src="@{/js/user/active-menu.js}"></script>
+</body>
+</html>

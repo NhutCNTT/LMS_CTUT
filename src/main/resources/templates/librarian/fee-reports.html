@@ -1,0 +1,127 @@
+<!-- templates/library/reports/fee.html -->
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo cáo thu phí phạt — Thư viện CTUT</title>
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+
+    <!-- CSS dự án (từ /static) -->
+    <link rel="stylesheet" th:href="@{/css/librarian/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/sidebar.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/layout.css}" />
+</head>
+<body>
+<!-- Header -->
+<div th:replace="components/librarian/header :: header"></div>
+
+<div class="app-layout d-flex">
+    <!-- Sidebar: nhóm Reports sẽ active -->
+    <aside th:replace="components/librarian/sidebar :: sidebar('reports')"></aside>
+
+    <!-- Main -->
+    <main class="flex-grow-1">
+        <section class="content-section">
+            <div class="container py-4">
+                <h2 class="h3 fw-bold mb-3">Báo cáo thu phí phạt</h2>
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <div class="text-muted">Tổng phạt (tháng)</div>
+                                <div class="fs-3 fw-bold">856.000₫</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <div class="text-muted">Phí trễ hạn</div>
+                                <div class="fs-3 fw-bold">500.000₫</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <div class="text-muted">Phí làm hư sách</div>
+                                <div class="fs-3 fw-bold text-warning">356.000₫</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <h5 class="mb-0">Chi tiết giao dịch gần đây</h5>
+                            <button class="btn btn-success btn-sm" id="btnExportExcel">
+                                <i class="bi bi-file-earmark-excel me-1"></i>Xuất Excel
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-modern mb-0" id="tblTransactions">
+                                <thead>
+                                <tr>
+                                    <th>Ngày thu</th>
+                                    <th>Người nộp</th>
+                                    <th>Lý do</th>
+                                    <th class="text-end">Số tiền</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr><td>07/10/2025</td><td>Nguyễn Văn An</td><td>Trễ hạn 5 ngày</td><td class="text-end">50.000₫</td></tr>
+                                <tr><td>06/10/2025</td><td>Phạm Thị Lan</td><td>Làm hỏng sách</td><td class="text-end">150.000₫</td></tr>
+                                <tr><td>05/10/2025</td><td>Trần Thị Bích</td><td>Trễ hạn 2 ngày</td><td class="text-end">20.000₫</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- (tuỳ chọn) JS chung -->
+<script defer th:src="@{/js/librarian/header.js}"></script>
+<script defer th:src="@{/js/librarian/sidebar.js}"></script>
+<script defer th:src="@{/js/librarian/inject-layout.js}"></script>
+
+<!-- Xuất bảng ra CSV (mở được bằng Excel) -->
+<script>
+    document.getElementById('btnExportExcel')?.addEventListener('click', () => {
+        const table = document.getElementById('tblTransactions');
+        const rows = Array.from(table.querySelectorAll('tr'));
+        const esc = v => `"${String(v ?? '').replace(/"/g,'""')}"`;
+        const csv = rows.map(tr => {
+            const cells = Array.from(tr.querySelectorAll('th,td')).map(td => {
+                // bỏ kí hiệu tiền tệ & dấu chấm ngăn cách nếu cần
+                const raw = td.textContent.trim();
+                return esc(raw.replace(/\s*₫/g,''));
+            });
+            return cells.join(',');
+        }).join('\n');
+
+        const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'fee-transactions.csv';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+    });
+</script>
+</body>
+</html>

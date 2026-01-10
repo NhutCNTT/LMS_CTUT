@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Giới thiệu Thư viện — Thư viện CTUT</title>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/user/logo_tab.PNG}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <!-- CSS khối USER -->
+    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/user/header.css}">
+    <link rel="stylesheet" th:href="@{/css/user/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/user/about.css}">
+</head>
+
+<body>
+<!-- Header (fragment) -->
+<div th:replace="~{components/user/header :: header}"></div>
+
+<main class="container py-4 about-page">
+
+    <!-- Tiêu đề + breadcrumb -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h4 class="fw-bold mb-0">
+            <i class="bi bi-building me-2"></i> Giới thiệu tổng quan Thư viện
+        </h4>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a th:href="@{/user/home}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/user/intro}">Giới thiệu</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Về Thư viện</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Khối giới thiệu chung -->
+    <section class="card shadow-sm mb-4 about-section">
+        <div class="card-body">
+            <h5 class="section-title">Giới thiệu tổng quan</h5>
+            <p>
+                Thư viện Trường Đại học Kỹ thuật - Công nghệ Cần Thơ trực thuộc phòng
+                <strong>Quản lý khoa học công nghệ - Đổi mới sáng tạo - Hợp tác quốc tế</strong>.
+            </p>
+            <p>
+                Diện tích sử dụng của Thư viện hơn <strong>500m²</strong>. Tầng trệt gồm:
+            </p>
+            <ul>
+                <li>Kho sách và phòng đọc được trang bị máy lạnh;</li>
+                <li>Khu vực tra cứu OPAC với <strong>10 máy vi tính</strong> phục vụ bạn đọc;</li>
+                <li>Khu vực để báo, tạp chí và luận văn, tiểu luận tốt nghiệp của sinh viên chính quy.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 1. Nhiệm vụ và quyền hạn -->
+    <section class="card shadow-sm mb-4 about-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">1.</span> Nhiệm vụ và quyền hạn của Thư viện
+            </h5>
+            <ul>
+                <li>
+                    Xây dựng và phát triển nguồn tài nguyên thông tin phục vụ đào tạo, nghiên cứu khoa học
+                    và giải trí cho toàn thể viên chức, giảng viên, sinh viên và học viên.
+                </li>
+                <li>
+                    Quản lý, bảo quản, cập nhật và tổ chức khai thác hiệu quả tài liệu, trang thiết bị Thư viện.
+                </li>
+                <li>
+                    Hướng dẫn, hỗ trợ người dùng trong việc tra cứu, tiếp cận và sử dụng tài nguyên.
+                </li>
+                <li>
+                    Phối hợp với các đơn vị trong và ngoài trường để bổ sung nguồn tài nguyên thông tin,
+                    trao đổi tài liệu, nâng cao chất lượng phục vụ.
+                </li>
+                <li>
+                    Phối hợp và hỗ trợ các hoạt động sự kiện học thuật, tọa đàm, hội thảo để thúc đẩy văn hóa đọc.
+                </li>
+                <li>
+                    Ứng dụng công nghệ thông tin trong quản lý Thư viện, số hóa tài nguyên, triển khai các hệ thống
+                    Thư viện điện tử và cơ sở dữ liệu trực tuyến.
+                </li>
+                <li>
+                    Tham gia các hội nghị, hội thảo về thư viện; hỗ trợ việc kết nối, trao đổi nguồn tin,
+                    chia sẻ kinh nghiệm chuyên môn và tham gia các mạng lưới thông tin thư viện theo định hướng,
+                    chỉ đạo của Nhà trường và phù hợp với quy định của pháp luật.
+                </li>
+                <li>
+                    Kiểm tra, đánh giá định kỳ hoạt động của Thư viện, đề xuất cải tiến nhằm nâng cao chất lượng phục vụ.
+                </li>
+                <li>
+                    Tham mưu các quy định về hoạt động Thư viện, đảm bảo môi trường học tập văn minh, chuyên nghiệp
+                    và hiệu quả.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 2. Đối tượng phục vụ -->
+    <section class="card shadow-sm mb-4 about-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">2.</span> Đối tượng phục vụ của Thư viện
+            </h5>
+            <p>
+                Thư viện phục vụ:
+            </p>
+            <ul>
+                <li>Viên chức, giảng viên và người lao động của Trường;</li>
+                <li>Sinh viên và học viên các bậc đào tạo trong Nhà trường.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 3. Vốn tài liệu -->
+    <section class="card shadow-sm mb-4 about-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">3.</span> Vốn tài liệu
+            </h5>
+            <p>
+                Thư viện có hơn <strong>7.500 đầu sách</strong> với hơn <strong>20.000 bản sách</strong>,
+                <strong>05</strong> tờ báo, tạp chí chuyên ngành.
+            </p>
+            <p>
+                Nhà trường liên kết với các tổ chức, đơn vị xây dựng hệ thống tra cứu trên
+                <strong>trang Thư viện số của Trường</strong>. Thư viện số cung cấp khoảng
+                <strong>1.500.000 file tài liệu trực tuyến</strong> thuộc các lĩnh vực:
+                khoa học tự nhiên – xã hội, văn hóa – nghệ thuật, y tế – giáo dục, luận văn – báo cáo,
+                ngoại ngữ – tin học, giải trí – thư giãn,…
+            </p>
+            <p>
+                Trong đó có trên <strong>9.900 tài liệu</strong> là các giáo trình, bài giảng, đề tài nghiên cứu,
+                hướng dẫn thực hành liên quan đến các ngành học kỹ thuật, công nghệ như:
+                Kỹ thuật Cơ khí, Kỹ thuật Xây dựng, Công nghệ thông tin, Quản lý công nghiệp,
+                Điện – Điện tử – Viễn thông, Công nghệ thực phẩm – Công nghệ sinh học.
+            </p>
+            <p>
+                Địa chỉ truy cập trang Thư viện số của Trường:
+                <a href="http://thuvienso.ctuet.edu.vn" target="_blank" rel="noopener">
+                    http://thuvienso.ctuet.edu.vn
+                </a>.
+            </p>
+            <p>
+                Ngoài ra, Thư viện Trường Đại học Kỹ thuật - Công nghệ Cần Thơ còn liên kết với
+                <strong>Trung tâm Học liệu Trường Đại học Cần Thơ</strong> để chia sẻ nguồn tài liệu số,
+                nhằm hỗ trợ việc giảng dạy và học tập của viên chức và người học trong toàn Trường.
+            </p>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer (fragment) -->
+<div th:replace="~{components/user/footer :: userFooter}"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/user/layout.js}"></script>
+<script th:src="@{/js/user/active-menu.js}"></script>
+</body>
+</html>

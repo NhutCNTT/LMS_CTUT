@@ -1,0 +1,63 @@
+body {
+    background: #f6f8fb;
+}
+
+.card {
+    border-radius: 1rem;
+}
+
+.search-group {
+    min-width: 300px;
+}
+
+.dropdown-select {
+    min-width: 200px;
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed; /* ép các cột chia đều theo width */
+}
+
+.table th,
+.table td {
+    white-space: nowrap;
+    overflow: hidden;       /* ẩn phần dư */
+    text-overflow: ellipsis; /* hiển thị "..." */
+}
+
+.pagination {
+    justify-content: center;
+    width: 100%;
+}
+nav {
+    width: 100%;
+}
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#suggestions-box .list-group-item {
+    border-radius: 8px;
+    margin-bottom: 4px;
+    border: 1px solid #e9ecef;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+/* Hover đẹp hơn */
+#suggestions-box .list-group-item:hover {
+    background-color: #f0f4ff;
+    transform: scale(1.01);
+}
+
+/* Bo góc + shadow nhẹ */
+#suggestions-box {
+    background: white;
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+

@@ -1,0 +1,123 @@
+<!-- templates/library/reports/borrow-return.html -->
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo cáo mượn – trả — Thư viện CTUT</title>
+
+    <!-- Bootstrap & Icons (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+
+    <!-- CSS dự án (từ /static) -->
+    <link rel="stylesheet" th:href="@{/css/librarian/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/sidebar.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/layout.css}" />
+</head>
+<body>
+<!-- Header -->
+<div th:replace="components/librarian/header :: header"></div>
+
+<div class="app-layout d-flex" style="min-height:100vh">
+    <!-- Sidebar: đánh dấu menu Reports -->
+    <aside th:replace="components/librarian/sidebar :: sidebar('reports')"></aside>
+
+    <main class="flex-grow-1">
+        <!-- ============ MƯỢN TRẢ ============ -->
+        <section id="muon-tra" class="content-section">
+            <div class="container py-4">
+                <h2 class="h3 fw-bold mb-3">Báo cáo hoạt động mượn – trả</h2>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <div class="text-muted">Tổng lượt mượn (tháng)</div>
+                                <div class="fs-3 fw-bold">1,578</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <div class="text-muted">Sách đang mượn</div>
+                                <div class="fs-3 fw-bold">942</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <div class="text-muted">Tỷ lệ trễ hạn</div>
+                                <div class="fs-3 fw-bold text-danger">12%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Sách được mượn nhiều nhất</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-modern mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Tên sách</th>
+                                            <th>Tác giả</th>
+                                            <th>Lượt mượn</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr><td>Đắc Nhân Tâm</td><td>Dale Carnegie</td><td>125</td></tr>
+                                        <tr><td>Nhà Giả Kim</td><td>Paulo Coelho</td><td>110</td></tr>
+                                        <tr><td>Tội Ác và Trừng Phạt</td><td>F. Dostoevsky</td><td>98</td></tr>
+                                        <tr><td>Tôi Thấy Hoa Vàng Trên Cỏ Xanh</td><td>Nguyễn Nhật Ánh</td><td>95</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Độc giả trả trễ nhiều lần</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-modern mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Tên độc giả</th>
+                                            <th>Mã</th>
+                                            <th>Số lần trễ</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr><td>Nguyễn Văn An</td><td>DG0123</td><td class="text-danger">5</td></tr>
+                                        <tr><td>Trần Thị Bích</td><td>DG0456</td><td class="text-danger">4</td></tr>
+                                        <tr><td>Lê Hoàng Cường</td><td>DG0789</td><td class="text-danger">3</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- /.container -->
+        </section>
+    </main>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- (tuỳ chọn) JS chung của dự án -->
+<script defer th:src="@{/js/librarian/header.js}"></script>
+<script defer th:src="@{/js/librarian/sidebar.js}"></script>
+<script defer th:src="@{/js/librarian/inject-layout.js}"></script>
+</body>
+</html>

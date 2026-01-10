@@ -1,0 +1,163 @@
+/* ============================
+   PAGE WRAPPER
+   ============================ */
+.lookup-page {
+    min-height: 70vh;
+    margin-top: 20px;
+}
+
+/* ============================
+   SEARCH HERO SECTION
+   ============================ */
+.search-hero {
+    background: #f8fbff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e1e7f0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.search-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0056d2;
+    margin-bottom: 5px;
+}
+
+.search-subtitle {
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+/* INPUT SEARCH LINE */
+.search-input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.search-input {
+    padding-left: 40px;
+    height: 48px;
+    border-radius: 8px;
+    font-size: 15px;
+    border: 1px solid #ced4da;
+    transition: all 0.25s ease;
+}
+
+.search-input:focus {
+    border-color: #0056d2;
+    box-shadow: 0 0 0 3px rgba(0,86,210,.15);
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #6c757d;
+}
+
+/* SELECT TYPE */
+.search-type-select {
+    height: 48px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    font-size: 15px;
+}
+
+/* BUTTON */
+.search-btn {
+    height: 48px;
+    padding: 0 22px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+/* RIGHT ILLUSTRATION */
+.search-hero-illustration {
+    font-size: 70px;
+    opacity: 0.5;
+    margin-left: 20px;
+}
+
+
+/* ============================
+   FILTER SIDEBAR
+   ============================ */
+.filter-card {
+    background: #ffffff;
+    padding: 18px;
+    border-radius: 10px;
+    border: 1px solid #e3e6ea;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.filter-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #0056d2;
+}
+
+.filter-group {
+    margin-bottom: 18px;
+}
+
+.filter-group-header {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* ============================
+   RESULTS SECTION
+   ============================ */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.results-header h5 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.results-count {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.no-results {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px dashed #cbd3da;
+    color: #6c757d;
+}
+
+.no-results i {
+    font-size: 22px;
+    margin-right: 6px;
+}
+
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 992px) {
+    .search-hero-illustration {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .search-btn {
+        width: 100%;
+    }
+}

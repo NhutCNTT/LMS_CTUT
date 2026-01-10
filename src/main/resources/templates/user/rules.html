@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Nội quy Thư viện — Thư viện CTUT</title>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/user/logo_tab.PNG}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <!-- CSS khối USER -->
+    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/user/header.css}">
+    <link rel="stylesheet" th:href="@{/css/user/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/user/rules.css}">
+</head>
+
+<body>
+<!-- Header (fragment) -->
+<div th:replace="~{components/user/header :: header}"></div>
+
+<main class="container py-4 rules-page">
+
+    <!-- Tiêu đề + breadcrumb -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h4 class="fw-bold mb-0">
+            <i class="bi bi-book-half me-2"></i> NỘI QUY HOẠT ĐỘNG THƯ VIỆN
+        </h4>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a th:href="@{/user/home}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/user/intro}">Giới thiệu</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Nội quy Thư viện</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Thông tin chung -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="text-center fw-bold mb-2">
+                NỘI QUY HOẠT ĐỘNG THƯ VIỆN<br/>
+                TRƯỜNG ĐẠI HỌC KỸ THUẬT - CÔNG NGHỆ CẦN THƠ
+            </h5>
+            <p class="text-center small mb-0 fst-italic">
+                (Ban hành kèm theo Quyết định số 541/QĐ-ĐHKTCN ngày 24/6/2025 của Hiệu trưởng
+                Trường Đại học Kỹ thuật - Công nghệ Cần Thơ)
+            </p>
+        </div>
+    </div>
+
+    <!-- 1. Thời gian phục vụ -->
+    <section class="card shadow-sm mb-3 rules-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">1.</span> Thời gian phục vụ
+            </h5>
+            <p>
+                Thư viện Trường hoạt động và phục vụ bạn đọc từ thứ Hai đến thứ Sáu hàng tuần
+                (trừ các ngày nghỉ lễ, Tết theo quy định của Nhà nước và Nhà trường).
+            </p>
+            <ul>
+                <li>Buổi sáng: từ <strong>07 giờ 30 phút</strong> đến <strong>11 giờ 00 phút</strong>.</li>
+                <li>Buổi chiều: từ <strong>13 giờ 30 phút</strong> đến <strong>17 giờ 00 phút</strong>.</li>
+            </ul>
+            <p>
+                Ngoài ra, Thư viện có thể điều chỉnh thời gian phục vụ phù hợp với nhu cầu của bạn đọc
+                trong các đợt cao điểm (như kỳ thi, sự kiện đặc biệt...), theo thông báo cụ thể từng thời điểm.
+            </p>
+        </div>
+    </section>
+
+    <!-- 2. Thẻ bạn đọc -->
+    <section class="card shadow-sm mb-3 rules-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">2.</span> Thẻ bạn đọc
+            </h5>
+            <p>
+                Đối tượng bạn đọc là viên chức, giảng viên và người lao động của Trường sử dụng
+                <strong>thẻ viên chức, bảng tên người lao động</strong>.
+            </p>
+            <p>
+                Đối với sinh viên, học viên của Trường sử dụng <strong>thẻ sinh viên, thẻ học viên</strong>.
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. Thư viện số -->
+    <section class="card shadow-sm mb-3 rules-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">3.</span> Thư viện số
+            </h5>
+            <p>
+                Nhà trường liên kết với các tổ chức, đơn vị xây dựng hệ thống tra cứu trang Thư viện số của Trường.
+                Thư viện số cung cấp tài liệu trực tuyến phục vụ nhiều lĩnh vực của Trường.
+                Địa chỉ truy cập trang Thư viện số của Trường tại:
+                <a href="http://thuvienso.ctuet.edu.vn" target="_blank" rel="noopener">
+                    http://thuvienso.ctuet.edu.vn
+                </a>.
+            </p>
+            <p>
+                Bạn đọc là sinh viên, học viên sử dụng <strong>mã số sinh viên, mã số học viên</strong>; bạn đọc là
+                viên chức, giảng viên sử dụng <strong>mã số đăng nhập cổng thông tin viên chức, giảng viên của Trường
+                (hệ thống Eoffice)</strong> để đăng nhập vào hệ thống Thư viện số của Trường.
+            </p>
+            <p>
+                Bạn đọc có trách nhiệm <strong>quản lý tài khoản và mật khẩu</strong> của mình, không cho người khác
+                mượn tài khoản. Trường hợp quên mật khẩu, bạn đọc liên hệ với Thư viện để được hỗ trợ.
+            </p>
+        </div>
+    </section>
+
+    <!-- 4. Quy định về mượn, trả và gia hạn tài liệu -->
+    <section class="card shadow-sm mb-3 rules-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">4.</span> Quy định về mượn, trả và gia hạn tài liệu
+            </h5>
+
+            <p><strong>a)</strong> Khi đến mượn tài liệu, bạn đọc xuất trình thẻ, làm thủ tục mượn tài liệu tại quầy mượn trả và kiểm tra tài liệu trước khi rời khỏi Thư viện.</p>
+            <p><strong>b)</strong> Tài liệu được mượn mang về: <strong>sách, giáo trình</strong>.</p>
+            <p><strong>c)</strong> Tài liệu đọc tại chỗ: <strong>sách, luận văn, tiểu luận, báo, tạp chí</strong>.</p>
+
+            <p><strong>d)</strong> Một số quy định đối với việc mượn tài liệu mang về:</p>
+            <ul>
+                <li>
+                    Bạn đọc là <strong>viên chức, giảng viên</strong> của Trường được phép mượn tối đa
+                    <strong>05 quyển/lần</strong>, thời gian mượn <strong>01 tháng</strong>;
+                </li>
+                <li>
+                    Bạn đọc là <strong>sinh viên, học viên</strong> học tại Trường được phép mượn tối đa
+                    <strong>03 quyển/lần</strong>, thời gian mượn <strong>02 tuần</strong>;
+                </li>
+                <li>
+                    Khi hết thời hạn mượn sách, nếu bạn đọc còn nhu cầu mượn thì phải mang sách đã mượn đến Thư viện để làm thủ tục xin gia hạn.
+                    Bạn đọc được phép <strong>gia hạn 01 lần</strong> và thời gian gia hạn tối đa <strong>01 tuần</strong>;
+                </li>
+                <li>
+                    Bạn đọc <strong>không được giữ sách quá thời hạn quy định</strong>. Trường hợp giữ sách quá thời hạn quy định,
+                    tùy theo mức độ sẽ bị xử lý theo khoản 7 Điều 7 Quy định này;
+                </li>
+                <li>
+                    Khi cần mượn tiếp các sách khác, bạn đọc phải trả lại Thư viện các sách đã mượn.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 5. Trách nhiệm của bạn đọc -->
+    <section class="card shadow-sm mb-3 rules-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">5.</span> Trách nhiệm của bạn đọc đối với tài liệu và trang thiết bị tại Thư viện
+            </h5>
+
+            <h6 class="sub-title">a) Đối với tài liệu</h6>
+            <ul>
+                <li>
+                    Bạn đọc phải giữ gìn tài liệu cẩn thận, sạch sẽ và nguyên vẹn; không được viết, vẽ, ghi chép vào tài liệu;
+                    luôn đảm bảo sự ngăn nắp và trật tự của tài liệu trên kệ; tài liệu sau khi đọc xong để tại
+                    <strong>“Kệ để tài liệu sau khi đọc”</strong>;
+                </li>
+                <li>Bạn đọc có trách nhiệm bồi thường nếu làm hư hỏng, mất tài liệu;</li>
+                <li>Bạn đọc không được đánh tráo hoặc chiếm dụng tài liệu của Thư viện;</li>
+                <li>
+                    Người học trước khi ra trường, thôi học, ngừng học; viên chức, giảng viên trước khi nghỉ hoặc chuyển công tác
+                    phải hoàn trả hết tài liệu đã mượn, thanh toán hết các khoản phạt, bồi thường (nếu có).
+                </li>
+            </ul>
+
+            <h6 class="sub-title">b) Đối với hệ thống máy vi tính phục vụ tra cứu</h6>
+            <ul>
+                <li>
+                    Bạn đọc sử dụng máy tính trong Thư viện phục vụ mục đích học tập và nghiên cứu.
+                    Nghiêm cấm việc sử dụng máy vi tính truy cập vào các trang web không lành mạnh, phản động…;
+                </li>
+                <li>
+                    Khi có sự cố về máy tính, bạn đọc phải báo ngay cho viên chức quản lý Thư viện để xử lý.
+                    Không được tự ý cài đặt, tháo gỡ các chương trình, phần mềm trên máy tính tại Thư viện;
+                </li>
+                <li>
+                    Sau khi sử dụng phải tắt máy tính theo đúng quy trình, dọn dẹp chỗ ngồi ngăn nắp, đúng nơi quy định.
+                </li>
+            </ul>
+
+            <h6 class="sub-title">c) Đối với các trang thiết bị khác</h6>
+            <ul>
+                <li>
+                    Bạn đọc không tự ý thay đổi, điều chỉnh hiện trạng, viết, vẽ trên bàn ghế và các trang thiết bị khác.
+                    Trước khi rời khỏi phòng đọc, phải sắp xếp ghế ngăn nắp, đúng nơi quy định;
+                </li>
+                <li>
+                    Khi có sự cố về các trang thiết bị, bạn đọc báo ngay cho viên chức quản lý Thư viện để xử lý kịp thời;
+                </li>
+                <li>Bảo quản chìa khóa tủ đồ dùng cá nhân.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 6. Một số quy định khác -->
+    <section class="card shadow-sm mb-3 rules-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">6.</span> Một số quy định khác tại Thư viện
+            </h5>
+            <ul>
+                <li>
+                    Bạn đọc khi vào Thư viện phải mang theo thẻ, trang phục gọn gàng, lịch sự,
+                    đồ dùng cá nhân để đúng nơi quy định.
+                </li>
+                <li>Giữ gìn trật tự trong phòng đọc, để điện thoại ở chế độ rung.</li>
+                <li>
+                    Không ăn uống, hút thuốc, sử dụng chất có cồn; không mang theo hung khí, chất dễ gây cháy nổ vào Thư viện,
+                    giữ gìn vệ sinh chung.
+                </li>
+                <li>
+                    Bạn đọc không mang bất kỳ tài sản gì của Thư viện ra ngoài khi không được sự cho phép của Thư viện.
+                </li>
+                <li>
+                    Bạn đọc có nghĩa vụ xuất trình các vật dụng mang ra khỏi Thư viện khi có yêu cầu của người có trách nhiệm.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 7. Xử lý vi phạm -->
+    <section class="card shadow-sm mb-4 rules-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">7.</span> Xử lý vi phạm
+            </h5>
+
+            <h6 class="sub-title">a) Mượn quá hạn</h6>
+            <ul>
+                <li>Vi phạm lần 1: Nhắc nhở;</li>
+                <li>
+                    Vi phạm lần 2: Bạn đọc chỉ tham khảo tài liệu tại chỗ, không được mượn tài liệu, sử dụng máy tính
+                    trong vòng <strong>7 ngày</strong>;
+                </li>
+                <li>
+                    Vi phạm lần 3: Bạn đọc chỉ tham khảo tài liệu tại chỗ, không được mượn tài liệu và sử dụng máy tính
+                    trong vòng <strong>1 tháng</strong>;
+                </li>
+                <li>
+                    Vi phạm lần 4 trở đi bạn đọc sẽ không được sử dụng các dịch vụ tại Thư viện. Bạn đọc là sinh viên thì
+                    Thư viện sẽ gửi danh sách sinh viên vi phạm đến các đơn vị liên quan để trừ điểm rèn luyện, xét tốt nghiệp.
+                </li>
+            </ul>
+
+            <h6 class="sub-title">b) Các hành vi làm hư hỏng, sao chép trái phép...</h6>
+            <p>
+                Các hành vi làm hư hỏng, sao chép trái phép, đánh tráo, chiếm dụng hoặc cố ý hủy hoại tài liệu,
+                tài sản của Thư viện sẽ bị xử lý theo mức độ vi phạm, có thể bị cảnh cáo hoặc xử phạt hành chính theo quy định
+                tại Điều 26, Nghị định số 158/2013/NĐ-CP ngày 12/11/2013 của Chính phủ.
+            </p>
+
+            <h6 class="sub-title">c) Trường hợp làm hư hỏng trang thiết bị</h6>
+            <p>
+                Trường hợp làm hư hỏng trang thiết bị: bạn đọc phải phục hồi trang thiết bị như trạng thái ban đầu.
+                Nếu không thể phục hồi thì phải bồi thường lại trang thiết bị mới tương tự cho Thư viện.
+            </p>
+
+            <h6 class="sub-title">d) Các trường hợp vi phạm khác</h6>
+            <ul>
+                <li>
+                    Bạn đọc là sinh viên, học viên: Tùy theo mức độ vi phạm sẽ được xử lý theo Điều 8 Quy định này;
+                </li>
+                <li>
+                    Bạn đọc là viên chức, giảng viên vi phạm thì sẽ giải trình trước Ban Giám hiệu./.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer (fragment) -->
+<div th:replace="~{components/user/footer :: userFooter}"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/user/layout.js}"></script>
+<script th:src="@{/js/user/active-menu.js}"></script>
+</body>
+</html>

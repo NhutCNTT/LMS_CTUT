@@ -1,0 +1,23 @@
+
+
+
+/* Hiển thị menu dropdown khi hover */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0; /* bỏ khoảng trống khi xổ */
+}
+
+.dropdown-menu {
+  background-color: #2b4d86; /* màu nền menu */
+  border: none;
+}
+
+.dropdown-item {
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffd700;
+}

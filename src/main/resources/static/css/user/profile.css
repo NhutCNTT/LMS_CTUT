@@ -1,0 +1,73 @@
+/* ============================
+   PROFILE PAGE — ĐỘC GIẢ
+   ============================ */
+
+.profile-page {
+    font-size: 0.95rem;
+}
+
+/* Avatar độc giả */
+.reader-avatar-wrapper {
+    width: 160px;
+    height: 160px;
+}
+
+.reader-avatar-img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+}
+
+/* Nhãn "Ngày sinh:", "Điện thoại:" canh đều */
+.info-row .text-muted {
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* Card bo tròn nhẹ */
+.profile-page .card {
+    border-radius: 10px;
+}
+
+/* Hộp thống kê mượn sách */
+.reader-stats .stat-box {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+.reader-stats .stat-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+}
+
+.reader-stats .stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Breadcrumb */
+.breadcrumb a {
+    text-decoration: none;
+    color: #0d6efd;
+}
+
+.breadcrumb .active {
+    color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .reader-avatar-wrapper,
+    .reader-avatar-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .info-row .text-muted {
+        display: block;
+        min-width: auto;
+    }
+}

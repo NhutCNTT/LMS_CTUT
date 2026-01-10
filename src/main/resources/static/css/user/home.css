@@ -1,0 +1,569 @@
+/* ================= HERO ================= */
+.hero-banner {
+    position: relative;
+}
+
+/* Ảnh banner */
+section.hero-banner img {
+    width: 100%;
+    height: 500px;
+    /* hoặc 600px tùy ý */
+    object-fit: cover;
+    /* lấp đầy khung, giữ tỉ lệ */
+}
+
+/* ============ BIẾN DỄ CHỈNH ============ */
+:root {
+    --brand: #1d3a73;
+    /* xanh đậm thương hiệu */
+    --brand-light: #2f6ae0;
+    /* xanh sáng cho glow */
+    --radius: 50px;
+    --height: 55px;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-blur: 8px;
+    --divider: rgba(0, 0, 0, 0.1);
+}
+
+/* Container nằm chồng trên ảnh */
+.search-container {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 900px;
+    z-index: 5;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Form kính mờ + đổ viền xanh */
+.search-form {
+    display: flex;
+    align-items: center;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border-radius: var(--radius);
+    padding: 5px;
+    border: 2px solid var(--brand);
+    /* viền xanh chính */
+    box-shadow: 0 0 8px rgba(47, 106, 224, 0.4);
+    /* glow xanh nhạt */
+    transition: box-shadow 0.3s, border 0.3s, transform 0.2s;
+}
+
+/* Hiệu ứng glow mạnh hơn khi hover/focus */
+.search-form:hover,
+.search-form:focus-within {
+    border-color: var(--brand-light);
+    box-shadow: 0 0 12px rgba(47, 106, 224, 0.8),
+    0 0 20px rgba(29, 58, 115, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Select & Input */
+.search-form select,
+.search-form input {
+    height: var(--height);
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1rem;
+    color: #222;
+    padding: 0 12px;
+}
+
+.search-form select {
+    border-right: 1px solid var(--divider);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg fill='black' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 12px center;
+    background-size: 20px;
+    /* mũi tên lớn */
+    padding-right: 40px;
+    /* chừa khoảng cho mũi tên */
+    padding-left: 10px;
+    line-height: var(--height);
+}
+
+.search-form input {
+    flex: 1;
+}
+
+/* Nút search tròn */
+.search-form .btn-search {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: var(--brand);
+    color: #fff;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 6px rgba(47, 106, 224, 0.5);
+}
+
+.search-form .btn-search:hover {
+    background: var(--brand-light);
+    box-shadow: 0 0 12px rgba(47, 106, 224, 0.9);
+}
+
+/* ========== RESPONSIVE search-form ========== */
+@media (max-width: 768px) {
+    .search-form {
+        flex-wrap: wrap;
+        /* cho phép xuống hàng */
+        gap: 5px;
+    }
+
+    .search-form select {
+        flex: 1 0 100%;
+        /* chiếm nguyên hàng */
+    }
+
+    .search-form .btn-search {
+        margin-left: auto;
+    }
+}
+
+/* ========== KHỐI CÁC CƠ SỞ DƯỚI THANH TÌM KIẾM ========== */
+.library-sections {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.section-btn {
+    border: 2px solid #0056d2;
+    color: #0056d2;
+    background: #fff;
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.section-btn:hover {
+    background: #0056d2;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 86, 210, 0.3);
+}
+
+/* ========== CÁC THẺ LOGO CƠ SỞ DỮ LIỆU ========== */
+.library-cards {
+    margin-bottom: 40px;
+}
+
+/* Khung chứa logo (gộp 1 rule, tránh đè qua lại) */
+.partner-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 210px;
+    height: 180px;
+    margin: 0 auto;
+    border-radius: 12px;
+    background: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.partner-logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.partner-logo img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    display: block;
+    margin: 0;
+    transition: transform 0.25s ease;
+}
+
+.partner-logo:hover img {
+    transform: scale(1.1);
+}
+
+/* =================== SECTION CONTAINER =================== */
+.book-section {
+    margin: 40px auto;
+    max-width: 1200px;
+}
+
+/* =================== HEADER SECTION ====================== */
+.book-section-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 120px 0 50px;
+}
+
+.book-section-header::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100px;
+    right: 120px;
+    height: 1px;
+    background-color: #000;
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.book-section-header h3,
+.book-section-header .view-all {
+    position: relative;
+    background-color: #fff;
+    z-index: 1;
+}
+
+.book-section-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0056d2;
+    padding: 0 12px;
+    margin: 0;
+}
+
+.book-section-header .view-all {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000;
+    text-decoration: none;
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.book-section-header .view-all:hover {
+    background-color: #f3f3f3;
+    border-color: #999;
+}
+
+/* Responsive cho đường kẻ header và tiêu đề */
+@media (max-width: 576px) {
+    .book-section-header::after {
+        left: 16px;
+        right: 16px;
+    }
+
+    .book-section-header h3 {
+        font-size: 1.1rem;
+    }
+}
+
+/* =================== GRID BỐ CỤC (CHUNG) ================= */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+}
+
+.book-item.big {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+/* =================== BÌA SÁCH (CHUNG) ==================== */
+.book-cover {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow:
+            0 4px 8px rgba(0, 0, 0, 0.75),
+            0 12px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.book-cover:hover {
+    transform: translateY(-8px);
+    box-shadow:
+            0 8px 16px rgba(0, 0, 0, 0.35),
+            0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* Gáy sách */
+.book-cover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 100%;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.15), transparent);
+}
+
+/* =================== OVERLAY (CHUNG) ===================== */
+.book-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 20%, transparent 100%);
+    color: #fff;
+    z-index: 2;
+}
+
+/* =================== TEXT (CHUNG) ======================== */
+.book-text {
+    margin-bottom: auto;
+    padding-top: 4px;
+}
+
+.book-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 25px;
+    line-height: 1.3;
+}
+
+.book-author {
+    font-size: 0.8rem;
+    margin: 0;
+    color: #e0e7ff;
+}
+
+/* =================== FOOTER (CHUNG) ====================== */
+.book-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.book-logo {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50%;
+    background: #fff;
+    object-fit: contain;
+    padding: 2px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.book-year {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* =================== STYLE CHO SÁCH LỚN ================== */
+.book-item.big .book-title {
+    font-size: 1.4rem;
+}
+
+.book-item.big .book-author {
+    font-size: 1.1rem;
+}
+
+.book-item.big .book-logo {
+    width: 48px !important;
+    height: 48px !important;
+    padding: 5px;
+}
+
+.book-item.big .book-year {
+    font-size: 1rem;
+}
+
+/* =================== RESPONSIVE GRID ===================== */
+@media (max-width: 992px) {
+    .book-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .book-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .book-logo {
+        width: 24px;
+        height: 24px;
+    }
+
+    .book-year {
+        font-size: 0.7rem;
+        padding: 1px 4px;
+    }
+
+    .book-item.big {
+        grid-column: span 2;
+        grid-row: auto;
+    }
+
+    .book-item.big .book-title {
+        font-size: 1.2rem;
+    }
+
+    .book-item.big .book-author {
+        font-size: 1rem;
+    }
+}
+
+/* =================== NAVBAR / SUBMENU SUPPORT ============ */
+/* Sticky navbar nổi trên banner/search */
+.navbar.sticky-top {
+    z-index: 1030;
+    background-color: #fff;
+}
+
+/* Bootstrap 5 không hỗ trợ submenu: bổ sung CSS */
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: .1rem;
+    margin-right: .1rem;
+}
+
+/* Hiển thị submenu khi có .show (JS sẽ toggle) */
+.dropdown-menu .dropdown-menu {
+    display: none;
+}
+
+.dropdown-menu .dropdown-menu.show {
+    display: block;
+}
+
+/* =================== KHỐI DỊCH VỤ THEO ĐỐI TƯỢNG =================== */
+.service-card {
+    border: none;
+    /* Bỏ viền Bootstrap mặc định */
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    /* Shadow nhẹ cho thẻ */
+    height: 100%;
+    /* Đảm bảo các thẻ có chiều cao bằng nhau */
+}
+
+.service-img {
+    width: 100%;
+    /* Cắt hình ảnh để khớp với tỉ lệ trong ảnh mẫu */
+    height: 200px;
+    /* Chiều cao cố định tương đối */
+    object-fit: cover;
+    display: block;
+}
+
+.service-card .card-body {
+    background-color: #f7f7f7;
+    /* Màu nền xám nhạt cho phần body (giống hình mẫu) */
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.service-card .card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    /* Màu tiêu đề */
+    margin-bottom: 0.5rem;
+}
+
+.service-card .card-text {
+    font-size: 0.95rem;
+    color: #666;
+    /* Màu chữ mô tả */
+    margin-bottom: 1.5rem;
+    min-height: 4.5rem;
+    /* Giúp căn chỉnh nút khi mô tả có 2 hoặc 3 dòng */
+}
+
+/* Nút bấm "Services for..." */
+.service-button {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    background-color: #fff;
+    /* Nền trắng */
+    color: #495057;
+    /* Màu chữ xám đen */
+    border: 1px solid #ced4da;
+    /* Viền xám */
+    border-radius: 4px;
+    /* Góc bo nhỏ */
+    transition: all 0.3s ease;
+}
+
+.service-button:hover {
+    background-color: #e9ecef;
+    /* Hơi xám khi hover */
+    border-color: #adb5bd;
+    color: #212529;
+}
+
+/* Khung dropdown suggestion */
+#suggestions-box {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 6px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e3e6eb;
+    backdrop-filter: blur(12px);
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+
+    /* Animation khi xuất hiện */
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+/* Khi hiển thị */
+#suggestions-box.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Từng item trong dropdown */
+#suggestions-box .list-group-item {
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: none;
+    font-size: 14px;
+    color: #1b1f27;
+    transition: background 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+/* Hover item */
+#suggestions-box .list-group-item:hover {
+    background-color: #e9f1ff;
+    transform: translateX(4px);
+}
+
+/* Form search giữ nguyên đúng vị trí */
+.search-form {
+    position: relative;
+    overflow: visible !important;
+}
+

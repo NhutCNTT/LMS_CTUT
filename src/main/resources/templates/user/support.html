@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Trợ giúp — Thư viện CTUT</title>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/user/logo_tab.PNG}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+    <!-- CSS khối USER -->
+    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/user/header.css}">
+    <link rel="stylesheet" th:href="@{/css/user/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/user/support.css}">
+</head>
+
+<body>
+<!-- Header (fragment) -->
+<div th:replace="~{components/user/header :: header}"></div>
+
+<!-- Phần nội dung chính của trang -->
+<main class="container py-4 support-page">
+
+    <!-- Tiêu đề + breadcrumb -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h4 class="fw-bold mb-0">
+            <i class="bi bi-life-preserver me-2"></i> Trợ giúp & Mẫu biểu Thư viện
+        </h4>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a th:href="@{/user/home}">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Trợ giúp</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Thông tin giới thiệu ngắn -->
+    <div class="alert alert-info small mb-4">
+        Trang này cung cấp các <strong>mẫu đơn và biểu mẫu cần thiết</strong> khi làm thủ tục tại Thư viện:
+        đăng ký thẻ, gia hạn mượn, xác nhận không nợ sách, góp ý dịch vụ,…
+        Bạn đọc có thể xem hướng dẫn nhanh và tải về mẫu tương ứng.
+    </div>
+
+    <!-- Nhóm 1: Mẫu đơn về thẻ bạn đọc -->
+    <section class="card shadow-sm mb-4 support-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">1.</span> Mẫu đơn về thẻ bạn đọc
+            </h5>
+
+            <div class="row g-3">
+                <!-- Đăng ký cấp thẻ -->
+                <div class="col-md-6">
+                    <div class="support-item h-100">
+                        <div class="support-icon">
+                            <i class="bi bi-card-checklist"></i>
+                        </div>
+                        <div class="support-content">
+                            <h6 class="mb-1">Đơn đăng ký cấp thẻ thư viện</h6>
+                            <p class="small mb-2">
+                                Dành cho sinh viên, học viên, viên chức, giảng viên chưa có thẻ thư viện hoặc cấp lần đầu.
+                            </p>
+                            <ul class="small mb-2">
+                                <li>Điền đầy đủ thông tin cá nhân và đơn vị công tác/học tập;</li>
+                                <li>Đính kèm ảnh thẻ (nếu có yêu cầu);</li>
+                                <li>Nộp trực tiếp tại quầy Thư viện hoặc theo hướng dẫn của Nhà trường.</li>
+                            </ul>
+                            <div class="support-actions">
+                                <a th:href="@{/files/forms/Mau_dang_ky_cap_the.docx}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download me-1"></i> Tải mẫu (Word)
+                                </a>
+                                <span class="file-tag">Mẫu: TV-01</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cấp lại / đổi thẻ -->
+                <div class="col-md-6">
+                    <div class="support-item h-100">
+                        <div class="support-icon">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <div class="support-content">
+                            <h6 class="mb-1">Đơn đề nghị cấp lại / đổi thẻ thư viện</h6>
+                            <p class="small mb-2">
+                                Áp dụng khi thẻ bị mất, hư hỏng, rách nát hoặc thay đổi thông tin cá nhân trên thẻ.
+                            </p>
+                            <ul class="small mb-2">
+                                <li>Mô tả lý do: mất, hư hỏng, thay đổi thông tin…;</li>
+                                <li>Kèm theo bản sao CMND/CCCD (nếu được yêu cầu);</li>
+                                <li>Phí cấp lại thẻ (nếu có) theo quy định hiện hành của Trường.</li>
+                            </ul>
+                            <div class="support-actions">
+                                <a th:href="@{/files/forms/Mau_cap_lai_the.docx}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download me-1"></i> Tải mẫu (Word)
+                                </a>
+                                <span class="file-tag">Mẫu: TV-02</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nhóm 2: Mẫu đơn mượn – trả – gia hạn -->
+    <section class="card shadow-sm mb-4 support-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">2.</span> Mẫu đơn về mượn – trả – gia hạn tài liệu
+            </h5>
+
+            <div class="row g-3">
+                <!-- Gia hạn mượn -->
+                <div class="col-md-6">
+                    <div class="support-item h-100">
+                        <div class="support-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div class="support-content">
+                            <h6 class="mb-1">Phiếu đề nghị gia hạn mượn tài liệu</h6>
+                            <p class="small mb-2">
+                                Sử dụng khi bạn đọc còn nhu cầu sử dụng tài liệu nhưng sắp đến hạn trả,
+                                cần xin gia hạn theo quy định của Thư viện.
+                            </p>
+                            <ul class="small mb-2">
+                                <li>Ghi rõ mã tài liệu, tên sách, ngày mượn và hạn trả hiện tại;</li>
+                                <li>Chỉ áp dụng nếu tài liệu không nằm trong danh mục hạn chế gia hạn;</li>
+                                <li>Nộp tại quầy Thư viện trước ngày đến hạn.</li>
+                            </ul>
+                            <div class="support-actions">
+                                <a th:href="@{/files/forms/Mau_gia_han_muon.docx}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download me-1"></i> Tải mẫu (Word)
+                                </a>
+                                <span class="file-tag">Mẫu: TV-03</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Xác nhận không nợ sách -->
+                <div class="col-md-6">
+                    <div class="support-item h-100">
+                        <div class="support-icon">
+                            <i class="bi bi-file-check"></i>
+                        </div>
+                        <div class="support-content">
+                            <h6 class="mb-1">Đơn/xác nhận không nợ sách Thư viện</h6>
+                            <p class="small mb-2">
+                                Thường được yêu cầu khi sinh viên tốt nghiệp, thôi học; viên chức, giảng viên nghỉ việc
+                                hoặc chuyển công tác.
+                            </p>
+                            <ul class="small mb-2">
+                                <li>Thông tin cá nhân và đơn vị quản lý hiện tại;</li>
+                                <li>Đề nghị Thư viện xác nhận đã hoàn trả toàn bộ tài liệu và thanh toán các khoản phạt (nếu có);</li>
+                                <li>Đính kèm theo hồ sơ tốt nghiệp / hồ sơ nhân sự.</li>
+                            </ul>
+                            <div class="support-actions">
+                                <a th:href="@{/files/forms/Mau_xac_nhan_khong_no_sach.docx}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download me-1"></i> Tải mẫu (Word)
+                                </a>
+                                <span class="file-tag">Mẫu: TV-04</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nhóm 3: Mẫu đề nghị, góp ý, bổ sung tài liệu -->
+    <section class="card shadow-sm mb-4 support-section">
+        <div class="card-body">
+            <h5 class="section-title">
+                <span class="section-index">3.</span> Mẫu đề nghị & góp ý
+            </h5>
+
+            <div class="row g-3">
+                <!-- Đề nghị mua/bổ sung tài liệu -->
+                <div class="col-md-6">
+                    <div class="support-item h-100">
+                        <div class="support-icon">
+                            <i class="bi bi-plus-circle"></i>
+                        </div>
+                        <div class="support-content">
+                            <h6 class="mb-1">Phiếu đề nghị mua/bổ sung tài liệu</h6>
+                            <p class="small mb-2">
+                                Dành cho giảng viên, sinh viên, học viên đề xuất mua mới hoặc bổ sung sách, giáo trình,
+                                tài liệu tham khảo phục vụ học tập và nghiên cứu.
+                            </p>
+                            <ul class="small mb-2">
+                                <li>Ghi rõ tên tài liệu, tác giả, nhà xuất bản, năm xuất bản (nếu biết);</li>
+                                <li>Nêu lý do, mục đích sử dụng và đối tượng sử dụng;</li>
+                                <li>Gửi về Thư viện để tổng hợp, trình lãnh đạo phê duyệt.</li>
+                            </ul>
+                            <div class="support-actions">
+                                <a th:href="@{/files/forms/Mau_de_nghi_mua_tai_lieu.docx}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download me-1"></i> Tải mẫu (Word)
+                                </a>
+                                <span class="file-tag">Mẫu: TV-05</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phiếu góp ý dịch vụ -->
+                <div class="col-md-6">
+                    <div class="support-item h-100">
+                        <div class="support-icon">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+                        <div class="support-content">
+                            <h6 class="mb-1">Phiếu góp ý dịch vụ Thư viện</h6>
+                            <p class="small mb-2">
+                                Ghi nhận ý kiến đóng góp về không gian đọc, thái độ phục vụ, hệ thống tra cứu, tài liệu,
+                                thời gian mở cửa… nhằm cải thiện chất lượng phục vụ bạn đọc.
+                            </p>
+                            <ul class="small mb-2">
+                                <li>Nêu rõ nội dung góp ý hoặc vấn đề gặp phải;</li>
+                                <li>Đề xuất giải pháp (nếu có);</li>
+                                <li>Có thể gửi ẩn danh hoặc kèm thông tin liên hệ.</li>
+                            </ul>
+                            <div class="support-actions">
+                                <a th:href="@{/files/forms/Mau_gop_y_dich_vu.docx}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download me-1"></i> Tải mẫu (Word)
+                                </a>
+                                <span class="file-tag">Mẫu: TV-06</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hướng dẫn thêm -->
+            <div class="mt-3 small text-muted">
+                <i class="bi bi-info-circle me-1"></i>
+                Các mẫu biểu trên có thể được cập nhật, điều chỉnh theo từng năm học.
+                Vui lòng theo dõi thông báo mới nhất trên trang Thông báo của Thư viện hoặc liên hệ trực tiếp quầy Thư viện để được hướng dẫn.
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<!-- Footer (fragment) -->
+<div th:replace="~{components/user/footer :: userFooter}"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/user/layout.js}"></script>
+<script th:src="@{/js/user/active-menu.js}"></script>
+<!-- Không dùng header.js/footer.js dạng fetch vì đã include fragment -->
+</body>
+</html>

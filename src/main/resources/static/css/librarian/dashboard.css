@@ -1,0 +1,273 @@
+/* ===== TOKENS CHUNG ===== */
+:root {
+    --brand: #1a73e8;
+    --ink: #0f172a;
+    --muted: #6b7280;
+    --card-radius: 18px;
+    --shadow-soft: 0 8px 24px rgba(10, 20, 40, 0.06);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #f6f8fb;
+}
+
+/* ===== CONTAINER CHÍNH ===== */
+.container.py-4 {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.container.py-4 .row {
+    margin-bottom: 1.5rem;
+}
+
+/* ===== Card chung ===== */
+.card {
+    border: 0;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-soft);
+    background: #fff;
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(10, 20, 40, 0.08);
+}
+
+/* ===== KPI ===== */
+.kpi-card {
+    padding: 22px 18px 18px;
+}
+
+.kpi-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 10px;
+}
+
+.kpi-value {
+    font-size: 2.1rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: .2px;
+    color: var(--ink);
+}
+
+.kpi-label {
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.kpi-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef4ff;
+    color: #1e3a8a;
+    font-size: 22px;
+    box-shadow: inset 0 0 0 1px rgba(30, 58, 138, .06);
+}
+
+.kpi-progress {
+    height: 8px;
+    border-radius: 999px;
+    background: #e9edf3;
+}
+
+.kpi-progress .progress-bar {
+    border-radius: 999px;
+}
+
+.kpi-foot {
+    color: var(--muted);
+    font-size: .95rem;
+    margin-top: 6px;
+}
+
+/* ===== Timeline ===== */
+.timeline {
+    position: relative;
+    margin-top: 6px;
+    list-style: none;
+    padding: 0;
+}
+
+.timeline:before {
+    content: "";
+    position: absolute;
+    left: 86px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #eef2f7;
+}
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+}
+
+.timeline-item+.timeline-item {
+    border-top: 1px dashed #eef2f7;
+}
+
+.timeline-time {
+    width: 86px;
+    color: var(--muted);
+    font-size: .92rem;
+    padding-top: 2px;
+}
+
+.timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--brand);
+    box-shadow: 0 0 0 4px rgba(26, 115, 232, .15);
+    margin-top: 4px;
+    flex: 0 0 auto;
+}
+
+.dot-warning {
+    background: #f59e0b;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, .18);
+}
+
+.dot-danger {
+    background: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, .18);
+}
+
+.timeline-text {
+    flex: 1;
+}
+
+.timeline-text .title {
+    font-weight: 700;
+}
+
+.timeline-text .sub {
+    color: var(--muted);
+    font-size: .92rem;
+    margin-top: 3px;
+}
+
+.timeline .btn {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(10, 20, 40, .06);
+}
+
+/* ===== Table hiện đại ===== */
+.table-modern thead th {
+    font-size: .83rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .35px;
+    border: 0;
+    padding-top: 10px;
+    padding-bottom: 8px;
+}
+
+.table-modern tbody td {
+    vertical-align: middle;
+    border-top: 1px solid #eef2f7 !important;
+    padding: 12px .9rem;
+}
+
+.table-modern tbody tr:first-child td {
+    border-top: 0 !important;
+}
+
+.table-responsive {
+    border-radius: 14px;
+}
+
+.avatar-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #eef2f7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .86rem;
+    font-weight: 800;
+    color: #475569;
+    margin-right: .5rem;
+}
+
+.badge-soft {
+    border-radius: 999px;
+    padding: .38rem .7rem;
+    font-weight: 700;
+    font-size: .76rem;
+}
+
+.badge-soft.success {
+    background: #e8f7ee;
+    color: #198754;
+}
+
+.badge-soft.warning {
+    background: #fff3cd;
+    color: #b58100;
+}
+
+.badge-soft.danger {
+    background: #fde2e2;
+    color: #dc3545;
+}
+
+.btn-link-icon {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--brand);
+}
+
+.btn-link-icon i {
+    vertical-align: -1px;
+    margin-left: .25rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width:1200px) {
+    .kpi-value {
+        font-size: 1.9rem;
+    }
+}
+
+@media (max-width:992px) {
+    .container.py-4 .row {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width:768px) {
+    .timeline:before {
+        left: 72px;
+    }
+
+    .timeline-time {
+        width: 72px;
+    }
+}
+
+
+
+.app-topbar .container-fluid {
+    min-height: 56px;
+    padding: .5rem 1rem;
+}

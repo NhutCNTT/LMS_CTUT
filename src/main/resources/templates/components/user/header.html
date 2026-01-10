@@ -1,0 +1,221 @@
+<!-- templates/components/user/header.html -->
+<header class="border-bottom"
+        th:fragment="header"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <!-- ===== TOP BAR: Logo + Giờ hoạt động ===== -->
+    <div class="container d-flex justify-content-between align-items-center py-2">
+        <!-- Logo + tên trường -->
+        <div class="d-flex align-items-center">
+            <img th:src="@{/images/user/Logo_ctuet.png}" alt="Logo" class="me-2 logo-header"/>
+            <div>
+                <h6 class="m-0 fw-bold">TRƯỜNG ĐẠI HỌC KỸ THUẬT - CÔNG NGHỆ CẦN THƠ</h6>
+                <small class="text-muted">Can Tho University Of Technology</small>
+            </div>
+        </div>
+
+        <!-- Giờ hoạt động -->
+        <div class="working-hours d-flex align-items-center">
+            <i class="bi bi-clock me-3"></i>
+            <div>
+                <span>Giờ hoạt động | <em>Chi tiết</em></span><br/>
+                <strong>Thứ 2 đến Thứ 7</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-top sticky-top">
+        <div class="container d-flex align-items-center">
+
+            <!-- Menu trái -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/user/home}">TRANG CHỦ</a>
+                </li>
+
+                <!-- DANH MỤC TÀI LIỆU -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-documents"
+                       th:href="@{/user/documents}" id="dropdownMenu" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        DANH MỤC TÀI LIỆU
+                        <i class="bi bi-caret-down-fill ms-2"></i>
+                    </a>
+
+                    <ul class="dropdown-menu documents-dropdown" aria-labelledby="dropdownMenu">
+                        <li><a class="dropdown-item" th:href="@{/user/documents/paper}">Tài liệu giấy</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/documents/digital}">Tài liệu số</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/documents/video}">Tài liệu video</a></li>
+
+                        <!-- Submenu cấp 2: Cơ sở dữ liệu -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Cơ sở dữ liệu <i class="bi bi-chevron-right"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/user/csdl/proquest}">CSDL ProQuest</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/csdl/nasati}">CSDL NASATI</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/csdl/ieee}">IEEE Xplore</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/csdl/doaj}">DOAJ (Open Access)</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- TRA CỨU -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-search"
+                       th:href="@{/user/lookup}" id="lookupMenu" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        TRA CỨU
+                        <i class="bi bi-caret-down-fill ms-2"></i>
+                    </a>
+
+                    <ul class="dropdown-menu search-dropdown" aria-labelledby="lookupMenu">
+                        <li><a class="dropdown-item" th:href="@{/user/lookup/search}">Trang tìm kiếm tài liệu</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/lookup/research}">Công trình NCKH</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/lookup/vnjournals}">Tạp chí Việt Nam</a></li>
+
+                        <!-- Luận án, luận văn -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Luận án, luận văn <i class="bi bi-chevron-right"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/user/lookup/thesis/undergrad}">Đồ án tốt nghiệp</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/lookup/thesis/masters}">Luận văn</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/lookup/thesis/phd}">Luận án</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Sách theo ngành -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Sách theo ngành <i class="bi bi-chevron-right"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-major}">Sách theo ngành</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-author}">Sách theo tác giả</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-title}">Sách theo tựa đề</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-topic}">Sách theo chủ đề</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Sách theo lĩnh vực -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Sách theo lĩnh vực <i class="bi bi-chevron-right"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-major}">Sách theo ngành</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-field}">Sách theo lĩnh vực</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-collection}">Sách theo bộ sưu tập</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-topic}">Sách theo chủ đề</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Sách theo chủ đề -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                Sách theo chủ đề <i class="bi bi-chevron-right"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-major}">Sách theo ngành</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-field}">Sách theo lĩnh vực</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-collection}">Sách theo bộ sưu tập</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/books/by-topic}">Sách theo chủ đề</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- GIỚI THIỆU -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center nav-intro"
+                       th:href="@{/user/intro}" id="introMenu" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        GIỚI THIỆU
+                        <i class="bi bi-caret-down-fill ms-2"></i>
+                    </a>
+                    <ul class="dropdown-menu intro-dropdown" aria-labelledby="introMenu">
+                        <li><a class="dropdown-item" th:href="@{/user/intro/about}">Về Thư viện</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/intro/rules}">Nội quy Thư viện</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/intro/org}">Tổ chức – Nhân sự</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/intro/map}">Sơ đồ Thư viện</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/intro/strategy}">Kế hoạch – Chiến lược</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/intro/report}">Báo cáo tổng kết năm học</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/announcement}">THÔNG BÁO</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/support}">TRỢ GIÚP</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/feedback}">LIÊN HỆ</a></li>
+            </ul>
+
+            <!-- ===== Khu vực phải: Login/User ===== -->
+
+            <!-- Chưa đăng nhập -->
+            <div class="ms-auto" sec:authorize="isAnonymous()">
+                <a th:href="@{/user/login}" class="btn btn-login d-flex align-items-center">
+                    <i class="bi bi-person-circle me-2"></i> Đăng nhập
+                </a>
+            </div>
+
+            <!-- Đã đăng nhập -->
+            <div class="ms-auto d-flex align-items-center gap-3"
+                 sec:authorize="isAuthenticated()"
+                 th:with="displayName=${(currentUser != null and #strings.hasText(currentUser.fullName)) ? currentUser.fullName : #authentication.name},
+                    firstLetter=${#strings.substring(displayName,0,1)}">
+
+                <!-- Chuông -->
+                <div class="icon-btn">
+                    <i class="bi bi-bell"></i>
+                    <span class="badge" th:text="${unreadNotificationsCount}">0</span>
+                </div>
+                <!-- Ghim sách -->
+                <a th:href="@{/user/pinbooks}" class="icon-btn text-decoration-none text-dark">
+                    <i class="bi bi-pin"></i> <!-- icon pin -->
+                    <span class="badge" th:text="${pinnedBooksCount}">0</span>
+                </a>
+
+
+                <!-- Tin nhắn -->
+                <div class="icon-btn">
+                    <i class="bi bi-chat-dots"></i>
+                    <span class="badge" th:text="${unreadMessagesCount}">0</span>
+                </div>
+
+                <!-- Dropdown User -->
+                <div class="dropdown">
+                    <a id="userMenu" class="d-flex align-items-center dropdown-toggle fw-semibold"
+                       href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+<!--                        <span class="me-2 user-name" th:text="${displayName}">Người dùng</span>-->
+                        <div class="user-avatar" th:text="${firstLetter}" style="text-transform: uppercase;">U</div>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end user-dropdown" aria-labelledby="userMenu">
+                        <li><a class="dropdown-item" th:href="@{/user/profile}"><i class="bi bi-person"></i> Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/favorites}"><i class="bi bi-bookmark"></i> Tài liệu yêu thích</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/history}"><i class="bi bi-clock-history"></i> Lịch sử mượn</a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><a class="dropdown-item" th:href="@{/user/reservations}"><i class="bi bi-journal-plus"></i> Đặt giữ sách</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/borrowing}"><i class="bi bi-book"></i> Sách đang mượn</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/extend}"><i class="bi bi-arrow-repeat"></i> Gia hạn mượn</a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><a class="dropdown-item" th:href="@{/user/change-password}"><i class="bi bi-key"></i> Đổi mật khẩu</a></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button class="dropdown-item text-danger" type="submit">
+                                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+</head>
+<body>
+<header class="app-topbar border-bottom" th:fragment="header">
+    <!-- templates/components/library/header.html -->
+    <header class="app-topbar border-bottom" th:fragment="header">
+        <div class="container-fluid d-flex align-items-center gap-2">
+            <!-- Toggle Sidebar (mobile/desktop) -->
+<!--            <button-->
+<!--                    id="btnToggleSidebar"-->
+<!--                    class="btn btn-light d-inline-flex align-items-center me-2"-->
+<!--                    type="button"-->
+<!--                    aria-label="Mở/đóng sidebar"-->
+<!--            >-->
+<!--                <i class="bi bi-list"></i>-->
+<!--            </button>-->
+
+            <!-- Brand -->
+            <div class="brand-area d-flex align-items-center gap-2 me-3">
+                <!-- ảnh nên để ở src/main/resources/static/images/... -->
+                <img th:src="@{/images/librarian/sv_logo_dashboard.png}" alt="Logo CTUT" width="32" height="32"/>
+            </div>
+
+            <!-- Search -->
+            <form class="flex-grow-1 d-none d-md-flex" role="search" th:action="@{/search}" method="get">
+                <div class="search-wrap w-100 position-relative">
+                    <input
+                            id="globalSearch"
+                            name="q"
+                            class="form-control search-input ps-5"
+                            type="search"
+                            placeholder="Tìm kiếm sách, độc giả…"
+                            autocomplete="off"
+                    />
+                    <i class="bi bi-search search-ico position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                </div>
+            </form>
+
+            <!-- Actions -->
+            <div class="d-flex align-items-center ms-auto">
+                <a class="btn btn-link text-muted px-2" th:href="@{/settings}" aria-label="Cài đặt">
+                    <i class="bi bi-gear"></i>
+                </a>
+                <a class="btn btn-link text-muted px-2" th:href="@{/apps}" aria-label="Ứng dụng">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                </a>
+
+                <div class="dropdown">
+                    <button
+                            class="btn btn-link text-muted px-2 position-relative"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            aria-label="Thông báo"
+                            type="button"
+                    >
+                        <i class="bi bi-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" th:href="@{/requests}">2 yêu cầu mượn mới</a>
+                        <a class="dropdown-item" th:href="@{/overdues}">4 độc giả trễ hạn</a>
+                        <a class="dropdown-item" th:href="@{/reports/weekly}">Báo cáo tuần</a>
+                    </div>
+                </div>
+
+                <div class="dropdown ms-2">
+                    <button
+                            class="btn btn-light d-flex align-items-center gap-2 px-2"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            type="button"
+                    >
+                        <img
+                                th:src="@{/images/librarian/logo_ctuet.png}"
+                                alt="avatar"
+                                class="rounded-circle"
+                                style="width: 28px; height: 28px"
+                        />
+                        <!-- Hiển thị tên từ SecurityContext nếu dùng thymeleaf-extras-springsecurity6 -->
+                        <span class="d-none d-sm-inline" th:text="${#authentication?.name ?: 'Người dùng'}">Người dùng</span>
+                        <i class="bi bi-caret-down-fill small text-muted"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" th:href="@{/profile}">Hồ sơ</a></li>
+                        <li><a class="dropdown-item" th:href="@{/settings}">Cài đặt</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <!-- Nếu dùng Spring Security: /logout là POST, bạn có thể để button trong form -->
+                        <li>
+                            <form th:action="@{/librarian/logout}" method="post" class="m-0">
+                                <button type="submit" class="dropdown-item">Đăng xuất</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+</header>
+</body>
+</html>
+
+
+
+
+
+
+

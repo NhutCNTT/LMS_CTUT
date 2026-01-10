@@ -1,0 +1,620 @@
+<!-- templates/library/books.html -->
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Quản lý sách — Thư viện CTUT</title>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/librarian/logo_tab.PNG}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- Bootstrap & Icons (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- CSS dự án -->
+    <link rel="stylesheet" th:href="@{/css/librarian/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/librarian/sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/librarian/layout.css}"/>
+    <link rel="stylesheet" th:href="@{/css/librarian/books.css}"/>
+</head>
+<body>
+<!-- Topbar -->
+<div th:replace="~{components/librarian/header :: header}"></div>
+
+<div class="app-layout d-flex">
+    <!-- Sidebar: truyền active = 'books' -->
+    <aside th:replace="~{components/librarian/sidebar :: sidebar('books')}"></aside>
+
+    <main class="flex-grow-1">
+        <div class="container-fluid py-3 px-4">
+            <h1 class="h4 mb-3">Quản lý sách</h1>
+            <!-- Thông báo -->
+            <div th:if="${deleteBookSuccess}" class="alert alert-success text-center"
+                 th:text="${deleteBookSuccess}">
+            </div>
+            <div th:if="${errorExistBook}" class="alert alert-danger text-center"
+                 th:text="${errorExistBook}">
+            </div>
+            <div th:if="${emptyMultipartFile}" class="alert alert-danger text-center"
+                 th:text="${emptyMultipartFile}">
+            </div>
+            <div th:if="${errorEditBook}" class="alert alert-danger text-center"
+                 th:text="${errorEditBook}">
+            </div>
+            <div th:if="${editBookSuccess}" class="alert alert-success text-center"
+                 th:text="${editBookSuccess}">
+            </div>
+            <div th:if="${errorEditBook}" class="alert alert-danger text-center"
+                 th:text="${errorEditBook}">
+            </div>
+            <div th:if="${successISBN}" class="alert alert-success text-center"
+                 th:text="${successISBN}">
+            </div>
+            <div th:if="${errorISBN}" class="alert alert-danger text-center"
+                 th:text="${errorISBN}">
+            </div>
+            <div th:if="${importCSVSuccess}" class="alert alert-success text-center"
+                 th:text="${importCSVSuccess}">
+            </div>
+            <div th:if="${errorImportCSV}" class="alert alert-danger text-center"
+                 th:text="${errorImportCSV}">
+            </div>
+            <!-- Actions -->
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <button id="btnExportCsv" class="btn btn-outline-secondary">
+                    <i class="bi bi-filetype-csv me-1"></i>  CSV
+                </button>
+
+                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#importCsvModal">
+                    <i class="bi bi-upload me-1"></i> Nhập CSV
+                </button>
+
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#quickAddModal">
+                    <i class="bi bi-lightning-charge me-1"></i> Thêm nhanh
+                </button>
+
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookModal">
+                    <i class="bi bi-plus-lg me-1"></i> Thêm sách
+                </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body d-flex flex-wrap align-items-center gap-2">
+                    <form th:action="@{/librarian/search}" method="get" class="input-group search-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+
+                        <input name="keyword"
+                               th:value="${keyword}"
+                               id="searchInput"
+                               type="text"
+                               class="form-control"
+                               placeholder="Tìm theo tên sách, mã sách, ISBN, tác giả..."/>
+                        <!--  suggest keyword -->
+                        <div id="suggestions-box" class="list-group position-absolute" style="  z-index: 1000; display: none; top: calc(100% + 5px); width: calc(100% - 180px);max-height: 220px; overflow-y: auto;">
+                        </div>
+                        <select name="status"
+                                id="statusFilter"
+                                class="form-select"
+                                style="max-width: 180px;"
+                                onchange="this.form.submit()">
+                            <option value="" th:selected="${status == null or status == ''}">Tất cả trạng thái</option>
+                            <option value="Đang lưu thông" th:selected="${status == 'Đang lưu thông'}">Đang lưu thông
+                            </option>
+                            <option value="Tạm ngưng" th:selected="${status == 'Tạm ngưng'}">Tạm ngưng</option>
+                            <option value="Hết sách" th:selected="${status == 'Hết sách'}">Hết sách</option>
+                        </select>
+                    </form>
+
+
+                    <div class="ms-auto">
+                        <a th:href="@{/librarian/books(page=0, pageSize=10)}"
+                           class="btn btn-outline-secondary text-dark text-decoration-none">
+                            <i class="bi bi-arrow-repeat me-1"></i> Đặt lại
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Mã</th>
+                        <th>Ảnh bìa</th>
+                        <th>Tên sách</th>
+                        <th>Tác giả</th>
+                        <th>ISBN</th>
+                        <th>Thể loại</th>
+                        <th>Giá</th>
+                        <th>SL</th>
+                        <th>Vị trí</th>
+                        <th>Trạng thái</th>
+                        <th class="text-center">Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    <tr th:each="books : ${bookPageContent}">
+                        <td th:text="${books.bookCode}"></td>
+                        <td>
+                            <img th:if="${books.image != null and books.image != ''}"
+                                 th:src="${books.image}"
+                                 alt="Books Image"
+                                 class="books-img"
+                                 style="max-height: 100px; width: auto;"/>
+                        </td>
+                        <td th:text="${books.bookName}"></td>
+                        <td>
+    <span th:each="author, iterStat : ${books.authors}"
+          th:text="${author.name} + ${!iterStat.last ? ', ' : ''}">
+    </span>
+                        </td>
+                        <td th:text="${books.isbn}"></td>
+                        <td th:text="${books.category}"></td>
+                        <td th:text="${books.price} + 'VND'"></td>
+                        <td th:text="${books.quantity}"></td>
+                        <td th:text="${books.location}"></td>
+                        <td th:text="${books.status}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/librarian/books(id=${books.id}, page=${currentPage})}"
+                               class="btn btn-sm btn-outline-primary me-1">Sửa</a>
+                            <a th:href="@{/librarian/deleteBooks(id=${books.id}, page=${currentPage})}"
+                               class="btn btn-sm btn-outline-danger">Xóa</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- Pagination -->
+                <nav th:if="${totalPages != null and totalPages > 0}">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/librarian/search(
+                    page=${currentPage > 0 ? currentPage - 1 : 0},
+                    pageSize=${pageSize},
+                    keyword=${keyword != null ? keyword : ''},
+                    status=${status != null ? status : ''})}">
+                                Previous
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${i == currentPage} ? 'active'">
+                            <a class="page-link"
+                               th:text="${i + 1}"
+                               th:href="@{/librarian/search(
+                    page=${i},
+                    pageSize=${pageSize},
+                    keyword=${keyword != null ? keyword : ''},
+                    status=${status != null ? status : ''})}">
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/librarian/search(
+                    page=${currentPage < totalPages - 1 ? currentPage + 1 : totalPages - 1},
+                    pageSize=${pageSize},
+                    keyword=${keyword != null ? keyword : ''},
+                    status=${status != null ? status : ''})}">
+                                Next
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Modal: Thêm sách -->
+<div class="modal fade" id="bookModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <form th:action="@{/librarian/saveBooks}" method="post" enctype="multipart/form-data" th:object="${saveBooks}"
+              class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookModalTitle">Thêm sách</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-sm-4">
+                        <label class="form-label">Mã sách</label>
+                        <input name="bookCode" class="form-control" placeholder="BK-0001" required/>
+                    </div>
+                    <div class="col-sm-8">
+                        <label class="form-label">Tên sách</label>
+                        <input name="bookName" class="form-control" required/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Tác giả</label>
+                        <input name="authorName" class="form-control" placeholder="Nhập tên tác giả..." required/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">ISBN</label>
+                        <input name="isbn" class="form-control" placeholder="978-..."/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">ID Book</label>
+                        <input name="googleBookId" class="form-control"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Thể loại</label>
+                        <input name="category" class="form-control" list="categoryList" required/>
+                        <datalist id="categoryList"></datalist>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Giá (₫)</label>
+                        <input name="price" type="number" class="form-control" value="0"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Số lượng</label>
+                        <input name="quantity" type="number" min="0" step="1" class="form-control" value="1"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Ảnh bìa</label>
+                        <input type="file" name="image" class="form-control" accept="image/*"/>
+                        <img id="coverPreview" class="d-none mt-2 border rounded"
+                             style="width:120px; height:160px; object-fit:cover;"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Vị trí</label>
+                        <input name="location" class="form-control" required/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Trạng thái</label>
+                        <select name="status" class="form-select">
+                            <option>Đang lưu thông</option>
+                            <option>Tạm ngưng</option>
+                            <option>Hết sách</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Mô tả</label>
+                        <textarea name="description" rows="3" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <input type="hidden" name="editIndex" value=""/>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Sủa sách-->
+<div th:if="${editBooks != null}" class="modal fade" id="editBooks" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <form th:action="@{/librarian/saveEditBooks}" method="post" enctype="multipart/form-data"
+              th:object="${editBooks}" class="modal-content">
+            <input type="hidden" id="id" th:field="*{id}">
+            <input type="hidden" name="page" th:value="${currentPage}"/>
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookTitle">Sửa sách</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-sm-4">
+                        <label class="form-label">Mã sách</label>
+                        <input th:field="*{bookCode}" class="form-control" placeholder="BK-0001" required/>
+                    </div>
+                    <div class="col-sm-8">
+                        <label class="form-label">Tên sách</label>
+                        <input th:field="*{bookName}" class="form-control" required/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Tác giả</label>
+                        <input name="authorName"
+                               th:value="${#strings.listJoin(editBooks.authors.![name], ', ')}"
+                               class="form-control" required/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">ISBN</label>
+                        <input th:field="*{isbn}" class="form-control" placeholder="978-..."/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Thể loại</label>
+                        <input th:field="*{category}" class="form-control" list="category" required/>
+                        <datalist id="category"></datalist>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Giá (₫)</label>
+                        <input th:field="*{price}" type="number" class="form-control" value="0"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Số lượng</label>
+                        <input th:field="*{quantity}" type="number" min="0" step="1" class="form-control" value="1"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Ảnh bìa</label>
+                        <input type="file" name="image" class="form-control" accept="image/*"/>
+                        <img id="coverPreview2" class="d-none mt-2 border rounded"
+                             style="width:120px; height:160px; object-fit:cover;"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Vị trí</label>
+                        <input th:field="*{location}" class="form-control" placeholder="A-3-L-2-1"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Trạng thái</label>
+                        <select th:field="*{status}" class="form-select">
+                            <option th:value="'Đang lưu thông'">Đang lưu thông</option>
+                            <option th:value="'Tạm ngưng'">Tạm ngưng</option>
+                            <option th:value="'Hết sách'">Hết sách</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-12">
+                        <label class="form-label">Mô tả</label>
+                        <textarea th:field="*{description}" rows="3" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <input type="hidden" name="editIndex" value=""/>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal: Thêm nhanh ISBN -->
+<div th:if="${successISBN}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <span th:text="${successISBN}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+
+<div th:if="${errorISBN}" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <span th:text="${errorISBN}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+
+<div class="modal fade" id="quickAddModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form th:action="@{/librarian/addByIsbn}" method="post" enctype="multipart/form-data" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm nhanh bằng ISBN</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">ISBN</label>
+                    <input type="text" name="isbn" class="form-control" placeholder="978-..." required/>
+                </div>
+                <p class="small text-muted mb-0">Nhập ISBN để hệ thống tự động lấy thông tin từ Google Books API.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="submit" class="btn btn-success">Thêm</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal: Nhập CSV -->
+<div class="modal fade" id="importCsvModal" tabindex="-1" aria-labelledby="importCsvModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form th:action="@{/librarian/import}" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importCsvModalLabel">Nhập file CSV</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="file" name="file" accept=".csv" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Tải lên</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JS dự án -->
+<script defer th:src="@{/js/librarian/header.js}"></script>
+<script defer th:src="@{/js/librarian/sidebar.js}"></script>
+<script defer th:src="@{/js/librarian/inject-layout.js}"></script>
+
+<!-- Logic trang (demo data) -->
+<script>
+
+    // Preview ảnh khi thêm sách
+    document.querySelector('#bookModal input[name="image"]').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('coverPreview');
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.classList.remove('d-none');
+        } else {
+            preview.src = "#";
+            preview.classList.add('d-none');
+        }
+    });
+
+    // Preview ảnh khi sửa sách
+    const editImageInput = document.querySelector('#editBooks input[name="image"]');
+    if (editImageInput) {
+        editImageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('coverPreview2');
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove('d-none');
+            } else {
+                preview.src = "#";
+                preview.classList.add('d-none');
+            }
+        });
+    }
+    // Thêm nhanh ISBN
+    document.getElementById("quickAddForm")?.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        const isbn = document.getElementById("quickIsbn").value.trim();
+        const qty  = Math.max(1, Number(document.getElementById("quickQty").value||1));
+        if(!isbn) return;
+        books.push({
+            code: "BK-"+String(books.length+1).padStart(4,"0"),
+            title: "Sách ISBN "+isbn, author:"Chưa rõ", isbn,
+            category:"Chưa phân loại", price:0, quantity:qty, status:"Đang lưu thông", description:""
+        });
+        render();
+        const modalEl = document.getElementById("quickAddModal");
+        (bootstrap.Modal.getInstance(modalEl)||new bootstrap.Modal(modalEl)).hide();
+        e.target.reset();
+    });
+
+    // Nhập CSV
+    const importCsvForm = document.getElementById("importCsvForm");
+    const csvInput = document.getElementById("csvFileInput");
+    function parseCSV(text){ return text.split(/\r?\n/).map(line=>line.split(",")); }
+
+    importCsvForm?.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        const file = csvInput.files?.[0]; if(!file) return;
+        const reader = new FileReader();
+        reader.onload = ()=>{
+            const text = String(reader.result||"");
+            const rows = parseCSV(text).filter(r=>r.length && r.some(c=>c.trim()!==""));
+            if(rows.length<2) return alert("CSV không có dữ liệu");
+            const headers = rows[0].map(h=>h.trim().toLowerCase());
+            const idx = (k)=>headers.indexOf(k);
+            for(let r=1;r<rows.length;r++){
+                const cells = rows[r];
+                books.push({
+                    code: (idx("code")>=0 && cells[idx("code")]?.trim()) || "BK-"+String(books.length+1).padStart(4,"0"),
+                    title: (idx("title")>=0 && cells[idx("title")]?.trim()) || "Chưa đặt tên",
+                    author: (idx("author")>=0 && cells[idx("author")]?.trim()) || "Chưa rõ",
+                    isbn: (idx("isbn")>=0 && cells[idx("isbn")]?.trim()) || "",
+                    category: (idx("category")>=0 && cells[idx("category")]?.trim()) || "Chưa phân loại",
+                    price: Number((idx("price")>=0 && cells[idx("price")])||0),
+                    quantity: Math.max(0, Number((idx("quantity")>=0 && cells[idx("quantity")])||1)),
+                    status: (idx("status")>=0 && cells[idx("status")]?.trim()) || "Đang lưu thông",
+                    description: "",
+                });
+            }
+            render();
+            const modalEl = document.getElementById("importCsvModal");
+            (bootstrap.Modal.getInstance(modalEl)||new bootstrap.Modal(modalEl)).hide();
+            importCsvForm.reset();
+        };
+        reader.readAsText(file, "utf-8");
+    });
+
+</script>
+
+<!-- xuất csv -->
+<script>
+    document.getElementById("btnExportCsv").addEventListener("click", function () {
+        window.location.href = "/librarian/export";
+    });
+</script>
+
+
+<!--<script th:if="${editBooks != null}">-->
+<!--    const modal = new bootstrap.Modal(document.getElementById('editBooks'));-->
+<!--    modal.show();-->
+<!--</script>-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const showEdit = [[${showEditModal}]];
+    if (showEdit) {
+        const editModal = new bootstrap.Modal(document.getElementById('editBooks'));
+        editModal.show();
+    }
+    /*]]>*/
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+            event.preventDefault();
+        const editModal = document.getElementById('editBookModal');
+        if (editModal && editModal.classList.contains('show')) {
+            // Ép ẩn modal
+            const modal = bootstrap.Modal.getInstance(editModal) || new bootstrap.Modal(editModal);
+            modal.hide();
+            editModal.classList.remove('show');
+            editModal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();
+        }
+    });
+</script>
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(alert => {
+            alert.classList.remove('show');
+        });
+    }, 3000);
+</script>
+<script>
+    const input = document.getElementById("searchInput");
+    const suggestionBox = document.getElementById("suggestions-box");
+
+    input.addEventListener("keyup", function () {
+        const keyword = input.value.trim();
+
+        if (keyword.length === 0) {
+            suggestionBox.style.display = "none";
+            return;
+        }
+
+        fetch(`/librarian/suggest?keyword=` + keyword)
+            .then(resp => resp.json())
+            .then(data => {
+                suggestionBox.innerHTML = "";
+
+                if (data.length === 0) {
+                    suggestionBox.style.display = "none";
+                    return;
+                }
+
+                data.forEach(s => {
+                    const item = document.createElement("a");
+                    item.classList.add("list-group-item", "list-group-item-action");
+                    item.textContent = s;
+
+                    item.onclick = () => {
+                        input.value = s;
+                        suggestionBox.style.display = "none";
+                        input.closest("form").submit();
+                    };
+
+                    suggestionBox.appendChild(item);
+                });
+
+                suggestionBox.style.display = "block";
+            });
+    });
+
+    // Ẩn danh sách khi click ra ngoài
+    document.addEventListener("click", (e) => {
+        if (!input.contains(e.target)) {
+            suggestionBox.style.display = "none";
+        }
+    });
+</script>
+
+
+</body>
+</html>

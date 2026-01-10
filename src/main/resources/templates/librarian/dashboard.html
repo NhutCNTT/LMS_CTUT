@@ -1,0 +1,203 @@
+<!-- templates/library/dashboard.html -->
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>THƯ VIỆN TRƯỜNG ĐẠI HỌC KỸ THUẬT - CÔNG NGHỆ CẦN THƠ</title>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/images/librarian/logo_tab.PNG}" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+
+    <!-- App CSS từ /static -->
+    <link rel="stylesheet" th:href="@{/css/librarian/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/sidebar.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/librarian/dashboard.css}" />
+</head>
+<body>
+<!-- Header fragment -->
+<div th:replace="components/librarian/header :: header"></div>
+
+<!-- App layout -->
+<div class="app-layout d-flex" style="min-height: 100vh">
+    <!-- Sidebar fragment: truyền key 'dashboard' để active -->
+    <aside th:replace="components/librarian/sidebar :: sidebar('dashboard')"></aside>
+
+    <!-- Main -->
+    <main class="flex-grow-1">
+        <div class="container py-4">
+            <!-- Thanh điều khiển -->
+            <div class="app-controls d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+                <h2 id="section-title" class="h3 fw-bold mb-0">Tổng quan</h2>
+                <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <input type="date" class="form-control form-control-sm" style="width:auto" value="2025-10-01" aria-label="Ngày bắt đầu"/>
+                    <span class="text-muted">→</span>
+                    <input type="date" class="form-control form-control-sm" style="width:auto" value="2025-10-08" aria-label="Ngày kết thúc"/>
+                    <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-filter me-1"></i>Lọc</button>
+                    <button class="btn btn-primary btn-sm" id="btnPrint"><i class="bi bi-printer me-1"></i>In báo cáo</button>
+                </div>
+            </div>
+
+            <!-- ============ DASHBOARD ============ -->
+            <section id="dashboard" class="content-section">
+                <h2 class="h3 fw-bold mb-3">Tổng quan</h2>
+
+                <!-- KPI -->
+                <div class="row g-4 mb-4">
+                    <!-- 4 thẻ KPI như bạn đã có -->
+                    <!-- ... (giữ nguyên nội dung KPI của bạn) ... -->
+                </div>
+
+                <!-- Charts -->
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Xu hướng mượn (6 tháng)</h5>
+                                <div class="chart-container"><canvas id="muonTrendChart"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Tỷ lệ trả sách</h5>
+                                <div class="chart-container"><canvas id="traSachRateChart"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Top 5 thể loại yêu thích</h5>
+                                <div class="chart-container"><canvas id="theLoaiChart"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bạn có thể thêm các section khác (kho-sach, tasks-loans, …) như bản gốc nếu vẫn dùng cơ chế show/hide -->
+            <!-- ... nguyên bản các section còn lại của bạn ... -->
+
+        </div>
+    </main>
+</div>
+
+<!-- Bootstrap JS & Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- (Tùy chọn) JS dự án nếu cần -->
+<script defer th:src="@{/js/librarian/header.js}"></script>
+<script defer th:src="@{/js/librarian/sidebar.js}"></script>
+<script defer th:src="@{/js/librarian/inject-layout.js}"></script>
+
+<!-- Trang reports JS (giữ nguyên logic của bạn, chỉ bỏ phần đợi sidebar-placeholder vì đã là fragment server-side) -->
+<script>
+    (function () {
+        const sections = document.querySelectorAll(".content-section");
+        const sectionTitleEl = document.getElementById("section-title");
+
+        function showSection(id) {
+            sections.forEach((sec) => {
+                if (sec.id === id) {
+                    sec.classList.remove("hidden");
+                    const originalTitleEl = sec.querySelector("h2.h3");
+                    if (originalTitleEl && sectionTitleEl) {
+                        sectionTitleEl.textContent = originalTitleEl.textContent;
+                        originalTitleEl.style.display = "none";
+                    }
+                } else {
+                    sec.classList.add("hidden");
+                }
+            });
+        }
+
+        // Với fragment sidebar, giả sử các link có data-target trỏ tới id section
+        function setActiveLink(targetId) {
+            const sidebar = document.querySelector("aside.sidebar") || document.body;
+            const links = sidebar.querySelectorAll("a");
+            links.forEach((a) => a.classList.remove("active"));
+            const byData = sidebar.querySelector(`a[data-target="${targetId}"]`);
+            if (byData) byData.classList.add("active");
+        }
+
+        // Khởi tạo section theo hash
+        const hash = location.hash?.replace("#","") || "dashboard";
+        if (document.getElementById(hash)) { showSection(hash); setActiveLink(hash); }
+        else { showSection("dashboard"); setActiveLink("dashboard"); }
+
+        // Lắng nghe click trong sidebar
+        document.addEventListener("click", function (e) {
+            const a = e.target.closest("a[data-target]");
+            if (!a) return;
+            const targetId = a.getAttribute("data-target");
+            if (targetId && document.getElementById(targetId)) {
+                e.preventDefault();
+                showSection(targetId);
+                setActiveLink(targetId);
+                history.replaceState(null, "", `#${targetId}`);
+            }
+        });
+
+        // ===== Chart.js =====
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: "bottom" } },
+            scales: { y: { beginAtZero: true } },
+        };
+
+        const muonTrendEl = document.getElementById("muonTrendChart");
+        if (muonTrendEl) {
+            new Chart(muonTrendEl.getContext("2d"), {
+                type: "line",
+                data: {
+                    labels: ["Tháng 5","Tháng 6","Tháng 7","Tháng 8","Tháng 9","Tháng 10"],
+                    datasets: [{ label:"Lượt mượn", data:[820,932,901,934,1290,1578], borderColor:"#4f46e5", backgroundColor:"rgba(79,70,229,0.1)", fill:true, tension:0.3 }],
+                },
+                options: defaultChartOptions,
+            });
+        }
+
+        const traRateEl = document.getElementById("traSachRateChart");
+        if (traRateEl) {
+            new Chart(traRateEl.getContext("2d"), {
+                type: "doughnut",
+                data: { labels:["Đúng hạn","Trễ hạn"], datasets:[{ data:[88,12] }] },
+                options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:"bottom" } } },
+            });
+        }
+
+        const theLoaiEl = document.getElementById("theLoaiChart");
+        if (theLoaiEl) {
+            new Chart(theLoaiEl.getContext("2d"), {
+                type: "pie",
+                data: {
+                    labels:["Văn học VN","Kỹ năng sống","Kinh tế","Tiểu thuyết","Thiếu nhi"],
+                    datasets:[{ data:[310,250,220,180,150] }]
+                },
+                options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:"bottom" } } },
+            });
+        }
+
+        // In phần section đang hiển thị
+        document.getElementById("btnPrint")?.addEventListener("click", () => {
+            const activeSection = document.querySelector(".content-section:not(.hidden)") || document.getElementById("dashboard");
+            if (activeSection) {
+                activeSection.classList.add("printable-section");
+                window.print();
+            }
+        });
+        window.onafterprint = () => {
+            document.querySelector(".printable-section")?.classList.remove("printable-section");
+        };
+    })();
+</script>
+</body>
+</html>
